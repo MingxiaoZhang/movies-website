@@ -19,8 +19,10 @@ mysql = MySQL(app)
 def check_database_connection():
     try:
         # Attempt to connect to the database
-        mysql.connection.ping()
-        return 'Successfully connected to the database!'
+        cur = mysql.connection.cursor()
+        cur.execute('SELECT * FROM basics LIMIT 1000')
+        data = cur.fetchall()
+        return str(data)
     except Exception as e:
         return f'Failed to connect to the database: {str(e)}'
 

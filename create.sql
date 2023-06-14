@@ -42,5 +42,5 @@ CREATE TABLE movies.movie_genres (
 	movie_id INT NOT NULL,
     genre_id INT NOT NULL,
 	FOREIGN KEY (movie_id) REFERENCES movies.basic_info(movie_id),
-    FOREIGN KEY (genre_id) REFERENCES movies.genres(person_id)
+    FOREIGN KEY (genre_id) REFERENCES movies.genres(genre_id)
 );
