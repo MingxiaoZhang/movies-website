@@ -44,3 +44,7 @@ CREATE TABLE movies.movie_genres (
 	FOREIGN KEY (movie_id) REFERENCES movies.basic_info(movie_id),
     FOREIGN KEY (genre_id) REFERENCES movies.genres(genre_id)
 );
+CREATE TABLE movies.user (
+	user_name VARCHAR(100) NOT NULL PRIMARY KEY,
+    user_password VARCHAR(100) NOT NULL
+);
