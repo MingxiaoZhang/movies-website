@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 type Movie = {
-    name: string;
+    title: string;
     year: string;
     genre: string;
 };
@@ -13,7 +13,8 @@ const MoviesDisplay = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('https://localhost:5000/moviedata'); // Replace with your backend API endpoint
+                const response = await axios.get('http://localhost:5000/moviedata'); // Replace with your backend API endpoint
+                console.log(response.data);
                 setMoviesData(response.data);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -36,7 +37,7 @@ const MoviesDisplay = () => {
                         rel="noopener noreferrer"
                     >
                         <h2 className={`mb-3 text-2xl font-semibold`}>
-                            {item.name}
+                            {item.title}
                             <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
                         -&gt;</span>
                         </h2>
