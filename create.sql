@@ -4,7 +4,6 @@ CREATE TABLE movies.basic_info (
     title VARCHAR(255),
     start_year INT,
     run_time_minutes INT,
-    genres VARCHAR(255),
     is_adult TINYINT(1)
 );
 CREATE TABLE movies.person_info (
@@ -34,11 +33,11 @@ CREATE TABLE movies.movie_actor (
     FOREIGN KEY (movie_id) REFERENCES movies.basic_info(movie_id),
     FOREIGN KEY (person_id) REFERENCES movies.person_info(person_id)
 );
-CREATE TABLE movies.genres (
-	genre_id INT NOT NULL PRIMARY KEY,
+CREATE TABLE movies.genre (
+	genre_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     genre_name VARCHAR(100)
 );
-CREATE TABLE movies.movie_genres (
+CREATE TABLE movies.movie_genre (
 	movie_id INT NOT NULL,
     genre_id INT NOT NULL,
 	FOREIGN KEY (movie_id) REFERENCES movies.basic_info(movie_id),

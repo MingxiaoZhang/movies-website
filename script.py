@@ -1,64 +1,53 @@
 import mysql.connector
+import csv
 
 # MySQL database connection details
 host = 'localhost'
 user = 'root'
 password = 'ZMx-02524'
-database = 'imdb_web'
+database = 'movies'
 
 # Chunk size for processing the file
 chunk_size = 100  # Adjust as needed
 
 
 def import_basics():
-    # TSV file path
-    tsv_file = '../basics.tsv'
-
-    # Establish a connection to MySQL
-    connection = mysql.connector.connect(host=host, user=user, password=password, database=database)
+    # Establish a connection to the MySQL database
+    cnx = mysql.connector.connect(host=host, user=user, password=password, database=database)
 
     # Create a cursor object
-    cursor = connection.cursor()
+    cursor = cnx.cursor()
+    # truncate_query = "TRUNCATE TABLE genres"
+    # cursor.execute(truncate_query)
+    # Open the CSV file
+    existing_genres = []
+    movie_genre = {}
+    with open('../basic_info.csv', 'r') as csvfile:
+        next(csvfile)
+        csv_data = csv.reader(csvfile)
 
-    # Truncate the table before importing data (optional)
-    truncate_query = "TRUNCATE TABLE basics"
-    cursor.execute(truncate_query)
+        # Iterate over the CSV data and insert rows into the table
+        for row in csv_data:
+            movie_genre[row[0]] = []
+            for genre in row[4].split(','):
+                movie_genre[row[0]].append(genre)
+                if genre not in existing_genres:
+                    print(genre)
+                    existing_genres.append(genre)
 
-    # Open the TSV file for reading
-    with open(tsv_file, 'r', encoding='utf-8') as file:
-        # Skip the header line
-        next(file)
+        for movie in movie_genre.keys():
+            for genre in movie_genre[movie]:
+                print(genre, movie)
+                cursor.execute("SELECT genre_id FROM genre WHERE genre_name=%s", [genre])
+                genre_id = cursor.fetchone()
+                cursor.execute("INSERT INTO movie_genre (movie_id, genre_id) VALUES (%s, %s)", [movie, genre_id[0]])
 
-        # Read and process the file in chunks
-        chunk = []
+    # Commit the changes to the database
+    cnx.commit()
 
-        for line in file:
-            # Split the line into columns
-            columns = line.strip().split('\t')
-
-            # Append the columns to the chunk
-            if columns[1] == 'movie' and columns[5] != '\\N' and columns[7] != '\\N' and columns[8] != '\\N':
-                # Append the columns to the chunk
-                chunk.append([columns[2], (columns[4] == '1'), int(columns[5]), int(columns[7]),
-                              columns[8], int(columns[0][2:])])
-
-            # Check if the chunk has reached the desired size
-            if len(chunk) >= chunk_size:
-                print(chunk[0])
-                # Load the chunk into the table
-                load_query = '''INSERT INTO basics (tconst, primaryTitle, isAdult, startYear, runTimeMinutes, genres)
-                SELECT tconst, %s, %s, %s, %s, %s
-                FROM ratings
-                WHERE tconst = %s'''
-                cursor.executemany(load_query, chunk)
-                connection.commit()
-
-                # Clear the chunk
-                chunk = []
-
-    # Close the cursor and connection
+    # Close the cursor and the database connection
     cursor.close()
-    connection.close()
+    cnx.close()
 
 
 def import_casts():
@@ -87,13 +76,14 @@ def import_casts():
 
         # Read and process the file in chunks
         chunk = []
-    
+
         for line in file:
             # Split the line into columns
             columns = line.strip().split('\t')
 
             # Append the columns to the chunk
-            if 1979388 <= int(columns[0][2:]) <= 2024432 and (int(columns[0][2:]) in movies) and (columns[3] == 'actor' or columns[3] == 'actress') and columns[5] != '\\N':
+            if 1979388 <= int(columns[0][2:]) <= 2024432 and (int(columns[0][2:]) in movies) and (
+                    columns[3] == 'actor' or columns[3] == 'actress') and columns[5] != '\\N':
                 # Append the columns to the chunk
                 print([int(columns[0][2:]), int(columns[2][2:]), columns[5]])
                 load_query = 'INSERT INTO casts (tconst, nconst, characters) VALUES (%s, %s, %s)'
@@ -149,7 +139,8 @@ def import_names():
                 if columns[3] == '\\N':
                     print([int(columns[0][2:]), columns[1], columns[2], None, columns[4], columns[5]])
                     load_query = 'INSERT INTO names (nconst, primaryName, birthYear, deathYear, primaryProfession, knownForTitles) VALUES (%s, %s, %s, %s, %s, %s)'
-                    cursor.execute(load_query, [int(columns[0][2:]), columns[1], columns[2], None, columns[4], columns[5]])
+                    cursor.execute(load_query,
+                                   [int(columns[0][2:]), columns[1], columns[2], None, columns[4], columns[5]])
                     connection.commit()
                 else:
                     print([int(columns[0][2:]), columns[1], columns[2], columns[3], columns[4], columns[5]])
@@ -266,4 +257,4 @@ def import_directors():
     connection.close()
 
 
-import_names()
+import_basics()
