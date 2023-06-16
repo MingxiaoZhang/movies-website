@@ -1,13 +1,15 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import MoviesDisplay from "./components/MoviesDisplay";
+import MainPage from "./pages/MainPage";
+import {Routes, Route} from "react-router-dom";
+import MovieInfoPage from "./pages/MovieInfoPage";
 
 function App() {
   return (
-    <div className="App">
-        <MoviesDisplay />
-    </div>
+      <Routes>
+          <Route path={"/"} element={<MainPage />}/>
+          <Route path={"/movie-info/:id"} element={<MovieInfoPage />}/>
+      </Routes>
   );
 }
 
