@@ -1,5 +1,5 @@
 import {useParams} from "react-router-dom";
-import BasicInfo from "../../components/BasicInfo";
+import BasicInfo from "./BasicInfo";
 
 
 const MovieInfoPage = () => {

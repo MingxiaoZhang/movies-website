@@ -1,4 +1,4 @@
-import MoviesDisplay from "../../components/MoviesDisplay";
+import MoviesDisplay from "./MoviesDisplay";
 
 const MainPage = () => {
     return (
