@@ -13,55 +13,22 @@ type Movie = {
 const MoviesDisplay = () => {
     const [moviesData, setMoviesData] = useState<Movie[]>([]);
     const navigate = useNavigate();
-    const [sortType, setSortType] = useState("moviedata");
-
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             const response = await axios.get('http://localhost:5000/moviedata'); // Replace with your backend API endpoint
-    //             console.log(response.data);
-    //             setMoviesData(response.data);
-    //         } catch (error) {
-    //             console.error('Error fetching data:', error);
-    //         }
-    //     };
-
-    //     fetchData();
-    // }, []);
-    const onClickSortName = () => {setSortType("sort/title")}
-    const onClickSortRate = () => {setSortType("sort/rating")}
-    const onClickSortYear = () => {setSortType("sort/year")}
-    const onClickSortClear = () => {setSortType("moviedata")}
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const URL = "http://localhost:5000/" + sortType;
-                console.log(URL);
-                const response = await axios.get(URL);
+                const response = await axios.get('http://localhost:5000/moviedata'); // Replace with your backend API endpoint
                 console.log(response.data);
                 setMoviesData(response.data);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         };
-        fetchData();
-    },[sortType])
 
+        fetchData();
+    }, []);
     return (
         <div className="grid lg:grid-cols-4 lg:text-left lg:gap-y-16">
-            <button onClick={onClickSortName}>
-                Sort By Title
-            </button>
-            <button onClick={onClickSortRate}>
-                Sort By Rate
-            </button>
-            <button onClick={onClickSortYear}>
-                Sort By Year
-            </button>
-            <button onClick={onClickSortClear}>
-                Clear Sorting
-            </button>
             {moviesData.map((item, index) => (
                 <a
                     key={index}

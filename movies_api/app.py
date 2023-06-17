@@ -108,7 +108,7 @@ def get_sorted_movies(type):
         elif (type == "title"):
             cur.execute('SELECT * FROM basic_info ORDER BY title LIMIT 24')
         elif (type == "year"):
-            cur.execute('SELECT * FROM basic_info ORDER BY start_year LIMIT 24')
+            cur.execute('SELECT * FROM basic_info ORDER BY start_year DESC LIMIT 24')
         data = cur.fetchall()
         json_data = []
         for row in data:
