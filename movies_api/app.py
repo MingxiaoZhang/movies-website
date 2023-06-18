@@ -77,16 +77,18 @@ def get_movie_by_id(movie_id):
         return f'Failed to connect to the database: {str(e)}'
 
 
-@app.route('/sort/<type>', methods=['GET'])
-def get_sorted_movies(type):
+@app.route('/sort/<sort_type>', methods=['GET'])
+def get_sorted_movies(sort_type):
     try:
         cur = mysql.connection.cursor()
-        if (type == "rating"):
-            cur.execute('SELECT movie_id, title, start_year, run_time_minutes, is_adult FROM basic_info NATURAL JOIN movie_rating ORDER BY average_rating DESC LIMIT 24')
-        elif (type == "title"):
-            cur.execute('SELECT * FROM basic_info ORDER BY title LIMIT 24')
-        elif (type == "year"):
-            cur.execute('SELECT * FROM basic_info ORDER BY start_year DESC LIMIT 24')
+        if sort_type == "rating":
+            cur.execute(
+                'SELECT movie_id, title, start_year, run_time_minutes, is_adult FROM basic_info NATURAL JOIN '
+                'movie_rating ORDER BY average_rating DESC')
+        elif sort_type == "title":
+            cur.execute('SELECT * FROM basic_info ORDER BY title')
+        elif sort_type == "year":
+            cur.execute('SELECT * FROM basic_info ORDER BY start_year DESC')
         data = cur.fetchall()
         json_data = []
         for row in data:
@@ -94,6 +96,7 @@ def get_sorted_movies(type):
         return jsonify(json_data)
     except Exception as e:
         return f'Failed to connect to the database: {str(e)}'
+
 
 if __name__ == '__main__':
     app.run()
