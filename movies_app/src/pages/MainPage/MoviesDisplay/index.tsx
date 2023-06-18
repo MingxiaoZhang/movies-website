@@ -27,7 +27,6 @@ const MoviesDisplay = () => {
 
         fetchData();
     }, []);
-
     return (
         <div className="grid lg:grid-cols-4 lg:text-left lg:gap-y-16">
             {moviesData.map((item, index) => (
