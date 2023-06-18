@@ -4,7 +4,7 @@ import axios from 'axios';
 import {MovieBasicType} from "./types";
 
 enum APIRoutes {
-    TITLE = 'sort/title', 
+    TITLE = 'sort/title',
     YEAR = 'sort/year',
     RATING = 'sort/rating',
     MOVIES = 'movies'
@@ -13,47 +13,45 @@ enum APIRoutes {
 const MoviesListPage: React.FC = () => {
     const [movies, setMovies] = useState<MovieBasicType[]>([]);
     const [sortType, setSortType] = useState(APIRoutes.MOVIES);
-    const onClickSort = (type:APIRoutes) => {setSortType(type)}
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const URL = "http://localhost:5000/" + sortType;
-                console.log(URL);
                 const response = await axios.get(URL);
-                console.log(response.data);
                 setMovies(response.data);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         };
         fetchData();
-    },[sortType])
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             const response = await axios.get(`http://localhost:5000/movies`); // Replace with your backend API endpoint
-    //             setMovies(response.data);
-    //         } catch (error) {
-    //             console.error('Error fetching data:', error);
-    //         }
-    //     };
+    },[sortType]);
 
-    //     fetchData();
-    // }, []);
     return (
-        
-        <div>
-            <div className='sortMenu'>
-                <button onClick={ () => {onClickSort(APIRoutes.TITLE)} } style={{margin: "10px 15px"}}>
+        <div className="mx-14">
+            <div className="flex space-x-4 my-6">
+                <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4"
+                    onClick={ () => {setSortType(APIRoutes.TITLE)} }
+                >
                     Sort By Title
                 </button>
-                <button onClick={ () => {onClickSort(APIRoutes.RATING)} } style={{margin: "10px 15px"}}>
-                    Sort By Rate
+                <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4"
+                    onClick={ () => {setSortType(APIRoutes.RATING)} }
+                >
+                    Sort By Rating
                 </button>
-                <button onClick={ () => {onClickSort(APIRoutes.YEAR)} } style={{margin: "10px 15px"}}>
+                <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4"
+                    onClick={ () => {setSortType(APIRoutes.YEAR)} }
+                >
                     Sort By Year
                 </button>
-                <button onClick={ () => {onClickSort(APIRoutes.MOVIES)} } style={{margin: "10px 15px"}}>
+                <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4"
+                    onClick={ () => {setSortType(APIRoutes.MOVIES)} }
+                >
                     Clear Sorting
                 </button>
             </div>

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import {MovieBasicType} from "../types";
+import {useNavigate} from "react-router-dom";
+import {PageRoutes} from "../../../routes/pageRoutes";
 
 const MoviesList: React.FC<{ movies: MovieBasicType[] }> = ({ movies }) => {
     const itemsPerPage = 100; // Number of movies to display per page
@@ -9,6 +11,8 @@ const MoviesList: React.FC<{ movies: MovieBasicType[] }> = ({ movies }) => {
     const lastIndex = currentPage * itemsPerPage;
     const firstIndex = lastIndex - itemsPerPage;
     const currentMovies = movies.slice(firstIndex, lastIndex);
+
+    const navigate = useNavigate();
 
     // Handle page change
     const handlePageChange = (pageNumber: number) => {
@@ -34,9 +38,15 @@ const MoviesList: React.FC<{ movies: MovieBasicType[] }> = ({ movies }) => {
 
     return (
         <div>
-            <ul>
+            <ul className="flex flex-col divide-y">
                 {currentMovies.map((movie, index) => (
-                    <li key={index}>{movie.title}</li>
+                    <li
+                        key={index}
+                        className="py-2 hover:bg-gray-100 w-full"
+                        onClick={() => {navigate(`${PageRoutes.MOVIE_INFO}/${movie.id}`)}}
+                    >
+                        {movie.title}
+                    </li>
                 ))}
             </ul>
 

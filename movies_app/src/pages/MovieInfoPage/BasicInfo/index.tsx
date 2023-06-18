@@ -12,7 +12,6 @@ const BasicInfo = ({ id }: Props) => {
         const fetchData = async () => {
             try {
                 const response = await axios.get(`http://localhost:5000/moviedata/${id}`); // Replace with your backend API endpoint
-                console.log(response.data);
                 setMovieInfo(response.data);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -20,7 +19,7 @@ const BasicInfo = ({ id }: Props) => {
         };
 
         fetchData();
-    }, []);
+    }, [id]);
 
     return (
         <div className="bg-gray-100">
