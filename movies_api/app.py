@@ -16,28 +16,44 @@ app.config['MYSQL_DB'] = os.getenv('MYSQL_DB')
 
 mysql = MySQL(app)
 
+@app.route('/createuser/<name>/<password>', methods=['GET'])
 def add_user(name, password):
     try:
         cur = mysql.connection.cursor()
+        cur.execute('SELECT * FROM user WHERE user_name=%s', [name])
+        results = cur.fetchall()
+        row_count = cur.rowcount
+        if row_count != 0:
+            return 'Error: user name already exist'
+        cur.execute('INSERT INTO user VALUES (%s, %s)', (name, password))
+        mysql.connection.commit()
+
+        # test
+        cur.execute('SELECT * FROM user')
+        results = cur.fetchall()
+        for row in results:
+            print(row[0])
+        return 'User successfully created'
     except Exception as e:
+        return f'Failed to connect to the database: {str(e)}'
 
-    cur.execute(f'SELECT * FROM user WHERE user_name={name}')
-    results = cursor.fetchall()
-    row_count = cursor.rowcount
-    if row_count == 0:
-        return False
-    cur.execute(f'INSERT INTO user VALUES (\'{name}\', \'{password}\')')
-    results = cursor.fetchall()
-    for row in results:
-        print(row[0])
-    return True
 
+@app.route('/userlogin/<name>/<password>', methods=['GET'])
 def user_login(name, password):
-    cur = mysql.connection.cursor()
-    cur.execute(f'SELECT * FROM user WHERE user_name={name} and user_password={password}')
-    results = cursor.fetchall()
-    row_count = cursor.rowcount
-    return row_count == 0
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute('SELECT user_password FROM user WHERE user_name=%s', [name])
+        data = cur.fetchone()
+        row_count = cur.rowcount
+        if row_count == 0:
+            return 'Error: user does not exist'
+        elif data[0] == password:
+            return 'Login success'
+        else:
+            return 'Error: Incorrect password'
+    except Exception as e:
+        return f'Failed to connect to the database: {str(e)}'
+    
 
 # Route to check database connection
 @app.route('/moviedata', methods=['GET'])
