@@ -36,7 +36,7 @@ const MoviesListPage: React.FC = () => {
             <div className="flex space-x-4 my-6">
                 <button
                     className="flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4"
-                    onClick={ () => {if (sortType == APIRoutes.TITLE_ASC) {
+                    onClick={ () => {if (sortType === APIRoutes.TITLE_ASC) {
                         setSortType(APIRoutes.TITLE_DESC)
                     } else {
                         setSortType(APIRoutes.TITLE_ASC)
@@ -44,9 +44,9 @@ const MoviesListPage: React.FC = () => {
                 >
                     Sort By Title
                     {
-                        sortType == APIRoutes.TITLE_DESC? (
+                        sortType === APIRoutes.TITLE_DESC? (
                             <TiArrowSortedDown/>
-                        ) : sortType == APIRoutes.TITLE_ASC? (
+                        ) : sortType === APIRoutes.TITLE_ASC? (
                             <TiArrowSortedUp/>
                         ) : (
                             <TiArrowUnsorted/>
@@ -55,7 +55,7 @@ const MoviesListPage: React.FC = () => {
                 </button>
                 <button
                     className="flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4"
-                    onClick={ () => {if (sortType == APIRoutes.RATING_ASC) {
+                    onClick={ () => {if (sortType === APIRoutes.RATING_ASC) {
                         setSortType(APIRoutes.RATING_DESC)
                     } else {
                         setSortType(APIRoutes.RATING_ASC)
@@ -63,9 +63,9 @@ const MoviesListPage: React.FC = () => {
                 >
                     Sort By Rating
                     {
-                        sortType == APIRoutes.RATING_DESC? (
+                        sortType === APIRoutes.RATING_DESC? (
                             <TiArrowSortedDown/>
-                        ) : sortType == APIRoutes.RATING_ASC? (
+                        ) : sortType === APIRoutes.RATING_ASC? (
                             <TiArrowSortedUp/>
                         ) : (
                             <TiArrowUnsorted/>
@@ -74,7 +74,7 @@ const MoviesListPage: React.FC = () => {
                 </button>
                 <button
                     className="flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4"
-                    onClick={ () => {if (sortType == APIRoutes.YEAR_ASC) {
+                    onClick={ () => {if (sortType === APIRoutes.YEAR_ASC) {
                         setSortType(APIRoutes.YEAR_DESC)
                     } else {
                         setSortType(APIRoutes.YEAR_ASC)
@@ -82,9 +82,9 @@ const MoviesListPage: React.FC = () => {
                 >
                     Sort By Year
                     {
-                        sortType == APIRoutes.YEAR_DESC? (
+                        sortType === APIRoutes.YEAR_DESC? (
                             <TiArrowSortedDown/>
-                        ) : sortType == APIRoutes.YEAR_ASC? (
+                        ) : sortType === APIRoutes.YEAR_ASC? (
                             <TiArrowSortedUp/>
                         ) : (
                             <TiArrowUnsorted/>
