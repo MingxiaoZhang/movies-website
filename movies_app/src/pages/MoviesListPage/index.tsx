@@ -1,12 +1,16 @@
 import React, {useEffect, useState} from 'react';
+import {TiArrowUnsorted, TiArrowSortedUp, TiArrowSortedDown} from "react-icons/ti"
 import MoviesList from './MoviesList';
 import axios from 'axios';
 import {MovieBasicType} from "./types";
 
-enum APIRoutes {
-    TITLE = 'sort/title',
-    YEAR = 'sort/year',
-    RATING = 'sort/rating',
+export enum APIRoutes {
+    TITLE_ASC = 'sort/title/asc',
+    TITLE_DESC = 'sort/title/desc',
+    YEAR_ASC = 'sort/year/asc',
+    YEAR_DESC = 'sort/year/desc',
+    RATING_ASC = 'sort/rating/asc',
+    RATING_DESC = 'sort/rating/desc',
     MOVIES = 'movies'
 }
 
@@ -31,25 +35,64 @@ const MoviesListPage: React.FC = () => {
         <div className="mx-14">
             <div className="flex space-x-4 my-6">
                 <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4"
-                    onClick={ () => {setSortType(APIRoutes.TITLE)} }
+                    className="flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4"
+                    onClick={ () => {if (sortType == APIRoutes.TITLE_ASC) {
+                        setSortType(APIRoutes.TITLE_DESC)
+                    } else {
+                        setSortType(APIRoutes.TITLE_ASC)
+                    }} }
                 >
                     Sort By Title
+                    {
+                        sortType == APIRoutes.TITLE_DESC? (
+                            <TiArrowSortedDown/>
+                        ) : sortType == APIRoutes.TITLE_ASC? (
+                            <TiArrowSortedUp/>
+                        ) : (
+                            <TiArrowUnsorted/>
+                        )
+                    }
                 </button>
                 <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4"
-                    onClick={ () => {setSortType(APIRoutes.RATING)} }
+                    className="flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4"
+                    onClick={ () => {if (sortType == APIRoutes.RATING_ASC) {
+                        setSortType(APIRoutes.RATING_DESC)
+                    } else {
+                        setSortType(APIRoutes.RATING_ASC)
+                    }} }
                 >
                     Sort By Rating
+                    {
+                        sortType == APIRoutes.RATING_DESC? (
+                            <TiArrowSortedDown/>
+                        ) : sortType == APIRoutes.RATING_ASC? (
+                            <TiArrowSortedUp/>
+                        ) : (
+                            <TiArrowUnsorted/>
+                        )
+                    }
                 </button>
                 <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4"
-                    onClick={ () => {setSortType(APIRoutes.YEAR)} }
+                    className="flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4"
+                    onClick={ () => {if (sortType == APIRoutes.YEAR_ASC) {
+                        setSortType(APIRoutes.YEAR_DESC)
+                    } else {
+                        setSortType(APIRoutes.YEAR_ASC)
+                    }} }
                 >
                     Sort By Year
+                    {
+                        sortType == APIRoutes.YEAR_DESC? (
+                            <TiArrowSortedDown/>
+                        ) : sortType == APIRoutes.YEAR_ASC? (
+                            <TiArrowSortedUp/>
+                        ) : (
+                            <TiArrowUnsorted/>
+                        )
+                    }
                 </button>
                 <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4"
+                    className="flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4"
                     onClick={ () => {setSortType(APIRoutes.MOVIES)} }
                 >
                     Clear Sorting
