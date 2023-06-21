@@ -100,18 +100,21 @@ def search_name(search_info):
     except Exception as e:
         return f'Failed to connect to the database: {str(e)}'
 
-@app.route('/sort/<sort_type>', methods=['GET'])
-def get_sorted_movies(sort_type):
+@app.route('/sort/<sort_type>/<order>', methods=['GET'])
+def get_sorted_movies(sort_type, order):
     try:
         cur = mysql.connection.cursor()
+        order_type = "ASC"
+        if order == "desc": 
+            order_type = "DESC"
         if sort_type == "rating":
             cur.execute(
                 'SELECT movie_id, title, start_year, run_time_minutes, is_adult FROM basic_info NATURAL JOIN '
-                'movie_rating ORDER BY average_rating DESC')
+                'movie_rating ORDER BY average_rating ' + order_type)
         elif sort_type == "title":
-            cur.execute('SELECT * FROM basic_info ORDER BY title')
+            cur.execute('SELECT * FROM basic_info ORDER BY title '+ order_type)
         elif sort_type == "year":
-            cur.execute('SELECT * FROM basic_info ORDER BY start_year DESC')
+            cur.execute('SELECT * FROM basic_info ORDER BY start_year ' + order_type)
         data = cur.fetchall()
         json_data = []
         for row in data:
