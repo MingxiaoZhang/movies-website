@@ -76,19 +76,45 @@ def get_movie_by_id(movie_id):
     except Exception as e:
         return f'Failed to connect to the database: {str(e)}'
 
-
-@app.route('/sort/<sort_type>', methods=['GET'])
-def get_sorted_movies(sort_type):
+@app.route('/search_movie/<search_info>', methods=['GET'])
+def search_movie(search_info):
     try:
         cur = mysql.connection.cursor()
+        cur.execute('SELECT movie_id, title, start_year, run_time_minutes, is_adult FROM basic_info WHERE title=%s', [search_info])
+        row = cur.fetchone()
+        json_data = {'id': row[0], 'title': row[1], 'year': row[2], 'runtime': row[3], 'is_adult' : row[4]}
+        return jsonify(json_data)
+    except Exception as e:
+        return f'Failed to connect to the database: {str(e)}'
+
+@app.route('/search_name/<search_info>', methods=['GET'])
+def search_name(search_info):
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute('SELECT person_id,primary_name, birth_year, death_year, primary_profession, known_for_titles'
+                    ' FROM person_info WHERE primary_name=%s', [search_info])
+        data = cur.fetchone()
+        json_data = {'person_id': data[0], 'primary_name': data[1], 'birth_year': data[2],
+                     'death_year': data[3], 'primary_profession': data[4], 'known_for_titles': data[5]}
+        return jsonify(json_data)
+    except Exception as e:
+        return f'Failed to connect to the database: {str(e)}'
+
+@app.route('/sort/<sort_type>/<order>', methods=['GET'])
+def get_sorted_movies(sort_type, order):
+    try:
+        cur = mysql.connection.cursor()
+        order_type = "ASC"
+        if order == "desc": 
+            order_type = "DESC"
         if sort_type == "rating":
             cur.execute(
                 'SELECT movie_id, title, start_year, run_time_minutes, is_adult FROM basic_info NATURAL JOIN '
-                'movie_rating ORDER BY average_rating DESC')
+                'movie_rating ORDER BY average_rating ' + order_type)
         elif sort_type == "title":
-            cur.execute('SELECT * FROM basic_info ORDER BY title')
+            cur.execute('SELECT * FROM basic_info ORDER BY title '+ order_type)
         elif sort_type == "year":
-            cur.execute('SELECT * FROM basic_info ORDER BY start_year DESC')
+            cur.execute('SELECT * FROM basic_info ORDER BY start_year ' + order_type)
         data = cur.fetchall()
         json_data = []
         for row in data:
