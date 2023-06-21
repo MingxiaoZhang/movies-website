@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import {useNavigate} from "react-router-dom";
+import {PageRoutes} from "../../../routes/pageRoutes";
 
 type Movie = {
     id: string;
@@ -35,7 +36,7 @@ const MoviesDisplay = () => {
                     className="group mx-8 my-8 rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
                     target="_blank"
                     rel="noopener noreferrer"
-                    onClick={() => {navigate(`/movie-info/${item.id}`)}}
+                    onClick={() => {navigate(`${PageRoutes.MOVIE_INFO}/${item.id}`)}}
                 >
                     <h2 className="mb-3 text-2xl font-semibold text-center">
                         {item.title}

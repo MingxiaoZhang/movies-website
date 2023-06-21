@@ -55,6 +55,21 @@ def get_movies():
         return f'Failed to connect to the database: {str(e)}'
 
 
+@app.route('/movies', methods=['GET'])
+def get_all_movies():
+    try:
+        # Attempt to connect to the database
+        cur = mysql.connection.cursor()
+        cur.execute('SELECT * FROM basic_info')
+        data = cur.fetchall()
+        json_data = []
+        for row in data:
+            json_data.append({'id': row[0], 'title': row[1], 'year': row[2]})
+        return jsonify(json_data)
+    except Exception as e:
+        return f'Failed to connect to the database: {str(e)}'
+
+
 @app.route('/moviedata/<int:movie_id>', methods=['GET'])
 def get_movie_by_id(movie_id):
     try:

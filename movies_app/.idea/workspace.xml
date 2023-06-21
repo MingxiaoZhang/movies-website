@@ -5,20 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e92a6ce-e9c3-45b3-8ff5-245af3eb3ddc" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/BasicInfo/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/BasicInfo/types.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/MainPage/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/MovieInfoPage/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Navbar/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/MoviesListPage/MoviesList/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/MoviesListPage/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/MoviesListPage/types.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/routes/pageRoutes.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../create.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../create.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../movies_api/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/../movies_api/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/MoviesDisplay/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/MoviesDisplay/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tailwind.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/tailwind.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../script.py" beforeDir="false" afterPath="$PROJECT_DIR$/../script.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/BasicInfo/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/MovieInfoPage/BasicInfo/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/BasicInfo/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/MovieInfoPage/BasicInfo/types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/MoviesDisplay/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/MainPage/MoviesDisplay/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/MainPage/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/MainPage/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/MovieInfoPage/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/MovieInfoPage/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tailwind.output.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/tailwind.output.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,6 +69,13 @@
     <property name="ts.external.directory.path" value="C:\Users\micha\OneDrive\Documents\cs348\project\cs348-group-project\movies_app\node_modules\typescript\lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\micha\OneDrive\Documents\cs348\project\cs348-group-project\movies_app\src\pages\MovieInfoPage" />
+      <recent name="C:\Users\micha\OneDrive\Documents\cs348\project\cs348-group-project\movies_app\src\pages\MainPage" />
+      <recent name="C:\Users\micha\OneDrive\Documents\cs348\project\cs348-group-project\movies_app\src\pages\MoviesListPage" />
+    </key>
+  </component>
   <component name="RunManager" selected="npm.npm start">
     <configuration name="Debug Application" type="JavascriptDebugType" uri="http://localhost:3000">
       <method v="2" />
@@ -92,7 +100,7 @@
       <option name="presentableId" value="Default" />
       <updated>1686785585027</updated>
       <workItem from="1686785586823" duration="3678000" />
-      <workItem from="1686946258543" duration="6168000" />
+      <workItem from="1686946258543" duration="9975000" />
     </task>
     <servers />
   </component>
