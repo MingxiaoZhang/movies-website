@@ -27,7 +27,7 @@ Replace `/path/to/create.sql` with the actual path to the `create.sql` file.
 This would create the necessary tables for this project. 
 
 5. Load data from csv files using the script
-```mysql> source /path/to/load.sql;```
+```mysql> source /path/to/import.sql;```
 Replace `/path/to/load.sql` with the actual path to the `load.sql` file.
 
 6. Navigate to the backend project directory:
