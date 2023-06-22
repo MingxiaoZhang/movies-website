@@ -6,6 +6,8 @@ import MovieInfoPage from "./pages/MovieInfoPage";
 import Navbar from "./components/Navbar";
 import { PageRoutes } from './routes/pageRoutes'
 import MoviesListPage from "./pages/MoviesListPage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
               <Route path={PageRoutes.HOME} element={<MainPage />}/>
               <Route path={PageRoutes.MOVIE_INFO_ROUTE} element={<MovieInfoPage />}/>
               <Route path={PageRoutes.MOVIE_LIST} element={<MoviesListPage />}/>
+              <Route path={PageRoutes.LOGIN} element={<LoginPage />}/>
+              <Route path={PageRoutes.REGISTER} element={<RegisterPage />}/>
           </Routes>
       </>
   );

@@ -27,14 +27,16 @@ const Navbar: React.FC = () => {
                                 >
                                     All Movies
                                 </a>
-                                <a
-                                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                                    onClick={() => {navigate(PageRoutes.CONTACT)}}
-                                >
-                                    Contact
-                                </a>
                             </div>
                         </div>
+                    </div>
+                    <div className="flex items-center ml-auto">
+                        <button
+                            onClick={() => {navigate(PageRoutes.LOGIN)}}
+                            className="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+                        >
+                            Login
+                        </button>
                     </div>
                 </div>
             </div>

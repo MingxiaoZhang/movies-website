@@ -7,5 +7,6 @@ export enum PageRoutes {
     DIRECTOR_INFO_ROUTE = '/director-info/:id',
     ACTOR_INFO = '/actor-info',
     ACTOR_INFO_ROUTE = '/actor-info/:id',
-    CONTACT = '/contact'
+    LOGIN = '/login',
+    REGISTER = '/register'
 }
