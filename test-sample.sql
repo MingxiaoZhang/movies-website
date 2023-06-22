@@ -20,6 +20,10 @@ CREATE TABLE movies.person_info (
     primary_profession VARCHAR(100),
     known_for_titles VARCHAR(100)
 );
+CREATE TABLE movies.user (
+	user_name VARCHAR(100) NOT NULL PRIMARY KEY,
+    user_password VARCHAR(100) NOT NULL
+);
 
 SET global local_infile = 1;
 #remember to change the path to your local file path, thanks
@@ -36,6 +40,13 @@ FIELDS TERMINATED BY ';'
 ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
+#remember to change the path to your local file path, thanks
+LOAD DATA LOCAL INFILE 'C:/Users/chy/Desktop/cs348/new-data/user.csv' 
+INTO TABLE movies.movie_rating
+FIELDS TERMINATED BY ';' 
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
 INSERT INTO movies.person_info VALUES(123, "Bob" , 2000, 2020, "a", "actor");
 SELECT movie_id, title, start_year, run_time_minutes, is_adult 
 FROM movies.basic_info WHERE title="Nosferatu";
@@ -46,3 +57,5 @@ SELECT * FROM movies.basic_info ORDER BY start_year;
 SELECT movie_id, title, start_year, run_time_minutes, is_adult 
 FROM movies.basic_info NATURAL JOIN movies.movie_rating 
 ORDER BY average_rating;
+NSERT INTO movies.user VALUES ("NewUser1", "RanDOMpass");
+SELECT * FROM movies.user;

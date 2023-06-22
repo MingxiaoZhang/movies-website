@@ -47,3 +47,10 @@ CREATE TABLE movies.user (
 	user_name VARCHAR(100) NOT NULL PRIMARY KEY,
     user_password VARCHAR(100) NOT NULL
 );
+CREATE TABLE movies.comment (
+    comment_id INT NOT NULL PRIMARY KEY,
+    user_name VARCHAR(100) NOT NULL,
+    movie_id INT NOT NULL,
+    FOREIGN KEY (user_name) REFERENCES movies.user(user_name),
+    FOREIGN KEY (movie_id) REFERENCES movies.basic_info(movie_id)
+);
