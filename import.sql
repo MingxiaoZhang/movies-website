@@ -1,8 +1,16 @@
 SET global local_infile = 1;
 
-LOAD DATA LOCAL INFILE 'C:/Users/micha/OneDrive/Documents/cs348/project/movie_directors.csv' 
-INTO TABLE movies.movie_director
-FIELDS TERMINATED BY ',' 
+#remember to change the path to your local file path, thanks
+LOAD DATA LOCAL INFILE 'C:/Users/chy/Desktop/cs348/new-data/basic_info.csv' 
+INTO TABLE movies.basic_info
+FIELDS TERMINATED BY ';' 
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
+#remember to change the path to your local file path, thanks
+LOAD DATA LOCAL INFILE 'C:/Users/chy/Desktop/cs348/new-data/movie_rating.csv' 
+INTO TABLE movies.movie_rating
+FIELDS TERMINATED BY ';' 
 ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
