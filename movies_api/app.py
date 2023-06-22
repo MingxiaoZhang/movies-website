@@ -1,5 +1,5 @@
 import os
-from flask import Flask
+from flask import Flask, request
 from flask_mysqldb import MySQL
 from dotenv import load_dotenv
 from flask import jsonify
@@ -76,16 +76,19 @@ def get_movie_by_id(movie_id):
     except Exception as e:
         return f'Failed to connect to the database: {str(e)}'
 
+
 @app.route('/search_movie/<search_info>', methods=['GET'])
 def search_movie(search_info):
     try:
         cur = mysql.connection.cursor()
-        cur.execute('SELECT movie_id, title, start_year, run_time_minutes, is_adult FROM basic_info WHERE title=%s', [search_info])
+        cur.execute('SELECT movie_id, title, start_year, run_time_minutes, is_adult FROM basic_info WHERE title=%s',
+                    [search_info])
         row = cur.fetchone()
-        json_data = {'id': row[0], 'title': row[1], 'year': row[2], 'runtime': row[3], 'is_adult' : row[4]}
+        json_data = {'id': row[0], 'title': row[1], 'year': row[2], 'runtime': row[3], 'is_adult': row[4]}
         return jsonify(json_data)
     except Exception as e:
         return f'Failed to connect to the database: {str(e)}'
+
 
 @app.route('/search_name/<search_info>', methods=['GET'])
 def search_name(search_info):
@@ -100,19 +103,20 @@ def search_name(search_info):
     except Exception as e:
         return f'Failed to connect to the database: {str(e)}'
 
+
 @app.route('/sort/<sort_type>/<order>', methods=['GET'])
 def get_sorted_movies(sort_type, order):
     try:
         cur = mysql.connection.cursor()
         order_type = "ASC"
-        if order == "desc": 
+        if order == "desc":
             order_type = "DESC"
         if sort_type == "rating":
             cur.execute(
                 'SELECT movie_id, title, start_year, run_time_minutes, is_adult FROM basic_info NATURAL JOIN '
                 'movie_rating ORDER BY average_rating ' + order_type)
         elif sort_type == "title":
-            cur.execute('SELECT * FROM basic_info ORDER BY title '+ order_type)
+            cur.execute('SELECT * FROM basic_info ORDER BY title ' + order_type)
         elif sort_type == "year":
             cur.execute('SELECT * FROM basic_info ORDER BY start_year ' + order_type)
         data = cur.fetchall()
@@ -120,6 +124,49 @@ def get_sorted_movies(sort_type, order):
         for row in data:
             json_data.append({'id': row[0], 'title': row[1], 'year': row[2], 'runtime': row[3]})
         return jsonify(json_data)
+    except Exception as e:
+        return f'Failed to connect to the database: {str(e)}'
+
+
+@app.route('/create_user', methods=['POST'])
+def add_user():
+    data = request.get_json()
+    name = data['name']
+    password = data['password']
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute('SELECT * FROM user WHERE user_name=%s', [name])
+        results = cur.fetchall()
+        row_count = cur.rowcount
+        if row_count != 0:
+            return jsonify({'status': 500, 'message': 'User already exists'})
+        cur.execute('INSERT INTO user VALUES (%s, %s)', (name, password))
+        mysql.connection.commit()
+
+        # test
+        cur.execute('SELECT * FROM user')
+        results = cur.fetchall()
+        for row in results:
+            print(row[0])
+        return jsonify({'status': 200})
+    except Exception as e:
+        print(e)
+        return jsonify({'status': 500, 'message': e})
+
+
+@app.route('/user_login/<name>/<password>', methods=['GET'])
+def user_login(name, password):
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute('SELECT user_password FROM user WHERE user_name=%s', [name])
+        data = cur.fetchone()
+        row_count = cur.rowcount
+        if row_count == 0:
+            return 'Error: user does not exist'
+        elif data[0] == password:
+            return 'Login success'
+        else:
+            return 'Error: Incorrect password'
     except Exception as e:
         return f'Failed to connect to the database: {str(e)}'
 
