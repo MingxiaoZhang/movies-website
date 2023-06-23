@@ -5,14 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e92a6ce-e9c3-45b3-8ff5-245af3eb3ddc" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/pages/LoginPage/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/RegisterPage/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../movies_api/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/../movies_api/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Navbar/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Navbar/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/pageRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/pageRoutes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tailwind.output.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/tailwind.output.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,6 +92,7 @@
       <workItem from="1687050334802" duration="3385000" />
       <workItem from="1687224321575" duration="1265000" />
       <workItem from="1687390817953" duration="1734000" />
+      <workItem from="1687484139201" duration="560000" />
     </task>
     <servers />
   </component>
