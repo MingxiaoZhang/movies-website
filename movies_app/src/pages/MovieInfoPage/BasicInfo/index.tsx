@@ -11,7 +11,7 @@ const BasicInfo = ({ id }: Props) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/moviedata/${id}`); // Replace with your backend API endpoint
+                const response = await axios.get(`http://localhost:5000/movie-data/${id}`); // Replace with your backend API endpoint
                 setMovieInfo(response.data);
             } catch (error) {
                 console.error('Error fetching data:', error);

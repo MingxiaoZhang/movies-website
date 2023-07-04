@@ -4,25 +4,47 @@ import MoviesList from './MoviesList';
 import axios from 'axios';
 import {MovieBasicType} from "./types";
 
-export enum APIRoutes {
-    TITLE_ASC = 'sort/title/asc',
-    TITLE_DESC = 'sort/title/desc',
-    YEAR_ASC = 'sort/year/asc',
-    YEAR_DESC = 'sort/year/desc',
-    RATING_ASC = 'sort/rating/asc',
-    RATING_DESC = 'sort/rating/desc',
-    MOVIES = 'movies'
+export enum SortField {
+    TITLE = 'TITLE',
+    YEAR = 'YEAR',
+    RATING = 'RATING',
 }
 
 const MoviesListPage: React.FC = () => {
     const [movies, setMovies] = useState<MovieBasicType[]>([]);
-    const [sortType, setSortType] = useState(APIRoutes.MOVIES);
+    const [sortType, setSortType] = useState<{type: SortField, isAsc: boolean}>();
+
+    const renderSortButton = (type: SortField) => {
+        return (
+            <button
+                className="flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4"
+                onClick={() => {
+                    if (type === sortType?.type) {
+                        setSortType({type, isAsc: !sortType.isAsc});
+                    } else {
+                        setSortType({type, isAsc: false});
+                    }
+                }}
+            >
+                Sort By {type.substring(0, 1) + type.substring(1).toLowerCase()}
+                {
+                    sortType?.type === type && sortType.isAsc? (
+                        <TiArrowSortedUp />
+                    ) : sortType?.type === type? (
+                        <TiArrowSortedDown />
+                    ) : (
+                        <TiArrowUnsorted />
+                    )
+                }
+            </button>
+        )
+    }
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const URL = "http://localhost:5000/" + sortType;
-                const response = await axios.get(URL);
+                const URL = "http://localhost:5000/movies";
+                const response = await axios.get(URL, {params: sortType});
                 setMovies(response.data);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -34,66 +56,12 @@ const MoviesListPage: React.FC = () => {
     return (
         <div className="mx-14">
             <div className="flex space-x-4 my-6">
+                {Object.keys(SortField).map((item) => {
+                    return renderSortButton(item as SortField);
+                })}
                 <button
                     className="flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4"
-                    onClick={ () => {if (sortType === APIRoutes.TITLE_ASC) {
-                        setSortType(APIRoutes.TITLE_DESC)
-                    } else {
-                        setSortType(APIRoutes.TITLE_ASC)
-                    }} }
-                >
-                    Sort By Title
-                    {
-                        sortType === APIRoutes.TITLE_DESC? (
-                            <TiArrowSortedDown/>
-                        ) : sortType === APIRoutes.TITLE_ASC? (
-                            <TiArrowSortedUp/>
-                        ) : (
-                            <TiArrowUnsorted/>
-                        )
-                    }
-                </button>
-                <button
-                    className="flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4"
-                    onClick={ () => {if (sortType === APIRoutes.RATING_ASC) {
-                        setSortType(APIRoutes.RATING_DESC)
-                    } else {
-                        setSortType(APIRoutes.RATING_ASC)
-                    }} }
-                >
-                    Sort By Rating
-                    {
-                        sortType === APIRoutes.RATING_DESC? (
-                            <TiArrowSortedDown/>
-                        ) : sortType === APIRoutes.RATING_ASC? (
-                            <TiArrowSortedUp/>
-                        ) : (
-                            <TiArrowUnsorted/>
-                        )
-                    }
-                </button>
-                <button
-                    className="flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4"
-                    onClick={ () => {if (sortType === APIRoutes.YEAR_ASC) {
-                        setSortType(APIRoutes.YEAR_DESC)
-                    } else {
-                        setSortType(APIRoutes.YEAR_ASC)
-                    }} }
-                >
-                    Sort By Year
-                    {
-                        sortType === APIRoutes.YEAR_DESC? (
-                            <TiArrowSortedDown/>
-                        ) : sortType === APIRoutes.YEAR_ASC? (
-                            <TiArrowSortedUp/>
-                        ) : (
-                            <TiArrowUnsorted/>
-                        )
-                    }
-                </button>
-                <button
-                    className="flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4"
-                    onClick={ () => {setSortType(APIRoutes.MOVIES)} }
+                    onClick={ () => {setSortType(undefined)} }
                 >
                     Clear Sorting
                 </button>

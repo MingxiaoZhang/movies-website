@@ -5,7 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e92a6ce-e9c3-45b3-8ff5-245af3eb3ddc" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../movies_api/app/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movies_api/app/api/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movies_api/app/api/movies.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movies_api/app/api/users.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movies_api/app/db.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movies_api/app/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/SearchBar/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/SearchResultPage/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../movies_api/app.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Navbar/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Navbar/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/MainPage/MoviesDisplay/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/MainPage/MoviesDisplay/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/MovieInfoPage/BasicInfo/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/MovieInfoPage/BasicInfo/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/MoviesListPage/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/MoviesListPage/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/pageRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/pageRoutes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tailwind.output.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/tailwind.output.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,6 +61,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -93,6 +110,9 @@
       <workItem from="1687224321575" duration="1265000" />
       <workItem from="1687390817953" duration="1734000" />
       <workItem from="1687484139201" duration="560000" />
+      <workItem from="1687668466390" duration="74000" />
+      <workItem from="1688421163433" duration="3081000" />
+      <workItem from="1688433993737" duration="3112000" />
     </task>
     <servers />
   </component>

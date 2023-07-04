@@ -17,7 +17,7 @@ const MoviesDisplay = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/moviedata'); // Replace with your backend API endpoint
+                const response = await axios.get('http://localhost:5000/movies-default/24'); // Replace with your backend API endpoint
                 console.log(response.data);
                 setMoviesData(response.data);
             } catch (error) {
@@ -30,10 +30,9 @@ const MoviesDisplay = () => {
     return (
         <div className="grid lg:grid-cols-4 lg:text-left lg:gap-y-16">
             {moviesData.map((item, index) => (
-                <a
+                <div
                     key={index}
                     className="group mx-8 my-8 rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-                    target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => {navigate(`${PageRoutes.MOVIE_INFO}/${item.id}`)}}
                 >
@@ -45,7 +44,7 @@ const MoviesDisplay = () => {
                     <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
                         <strong>Year:</strong> {item.year} <strong>Runtime:</strong>{item.runtime}
                     </p>
-                </a>
+                </div>
             ))}
         </div>
     );
