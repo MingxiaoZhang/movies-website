@@ -9,6 +9,7 @@ import MoviesListPage from "./pages/MoviesListPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import SearchResultPage from "./pages/SearchResultPage";
+import GenrePage from "./pages/GenrePage";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
               <Route path={PageRoutes.MOVIE_INFO_ROUTE} element={<MovieInfoPage />}/>
               <Route path={PageRoutes.MOVIE_LIST} element={<MoviesListPage />}/>
               <Route path={PageRoutes.SEARCH_RESULT} element={<SearchResultPage />}/>
+              <Route path={PageRoutes.GENRE_INFO_ROUTE} element={<GenrePage />}/>
               <Route path={PageRoutes.LOGIN} element={<LoginPage />}/>
               <Route path={PageRoutes.REGISTER} element={<RegisterPage />}/>
           </Routes>
