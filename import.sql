@@ -14,3 +14,16 @@ FIELDS TERMINATED BY ';'
 ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
+LOAD DATA LOCAL INFILE 'C:/Users/chy/Desktop/cs348/new-data/person_info.csv' 
+INTO TABLE movies.person_info
+character set latin7
+FIELDS TERMINATED BY ';' 
+ENCLOSED BY '"'
+LINES TERMINATED BY '\r\n'
+IGNORE 1 ROWS;
+LOAD DATA LOCAL INFILE 'C:/Users/chy/Desktop/cs348/new-data/movie_director.csv' 
+INTO TABLE movies.movie_director
+FIELDS TERMINATED BY ';' 
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;

@@ -5,22 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e92a6ce-e9c3-45b3-8ff5-245af3eb3ddc" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../movies_api/app/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../movies_api/app/api/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../movies_api/app/api/movies.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../movies_api/app/api/users.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../movies_api/app/db.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../movies_api/app/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/SearchBar/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/SearchResultPage/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../movies_api/app.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../create.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../create.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../import.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../import.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Navbar/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Navbar/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/MainPage/MoviesDisplay/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/MainPage/MoviesDisplay/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/MovieInfoPage/BasicInfo/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/MovieInfoPage/BasicInfo/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/MoviesListPage/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/MoviesListPage/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/pageRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/pageRoutes.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tailwind.output.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/tailwind.output.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -79,7 +66,7 @@
       <recent name="C:\Users\micha\OneDrive\Documents\cs348\project\cs348-group-project\movies_app\src\pages\MoviesListPage" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.npm start">
+  <component name="RunManager">
     <configuration name="Debug Application" type="JavascriptDebugType" uri="http://localhost:3000">
       <method v="2" />
     </configuration>
@@ -129,5 +116,6 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>
