@@ -72,10 +72,11 @@ def comment():
         return jsonify({'message': 'Success'}), 200
     except Exception as e:
         return jsonify({'message': str(e)}), 500
-    
+
+
 @users.route('/comment_display/<movie_id>/<int:num>')
 def comment_display(movie_id, num):
-    try: 
+    try:
         connection = get_db_connection()
         cur = connection.cursor()
         cur.execute('SELECT * FROM comment WHERE movie_id = %s ORDER BY comment_id DESC LIMIT %s', [movie_id, num])

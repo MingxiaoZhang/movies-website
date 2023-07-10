@@ -15,7 +15,7 @@ const UserProfilePage: React.FC = () => {
             localStorage.clear();
             navigate(PageRoutes.LOGIN);
         }
-    }, []);
+    }, [navigate]);
 
     const handleLogout = () => {
         localStorage.clear();

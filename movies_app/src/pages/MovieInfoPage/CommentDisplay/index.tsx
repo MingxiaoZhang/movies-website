@@ -34,13 +34,14 @@ const CommentDisplay = ({ id } : Props) => {
         };
 
         fetchData();
-    }, [refresh]);
+    }, [refresh, id]);
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const username = localStorage.getItem('user');
         if (!username || !isTokenValid()) {
             localStorage.clear();
             navigate(PageRoutes.LOGIN);
+            return;
         }
         const config = {
             method: 'post',
