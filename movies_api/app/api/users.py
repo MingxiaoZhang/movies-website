@@ -71,12 +71,12 @@ def comment():
     except Exception as e :
         return jsonify({'status': 500, 'message': e})
     
-@users.route('/comment_display/<int:num>')
-def comment_display(num):
+@users.route('/comment_display/<movie_id>/<int:num>')
+def comment_display(movie_id, num):
     try: 
         connection = get_db_connection()
         cur = connection.cursor()
-        cur.execute('SELECT * FROM comment ORDER BY comment_id DESC LIMIT %s', [num])
+        cur.execute('SELECT * FROM comment WHERE movie_id = %s ORDER BY comment_id DESC LIMIT %s', [movie_id, num])
         data = cur.fetchall()
         json_data = []
         for row in data:

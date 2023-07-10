@@ -21,7 +21,7 @@ const CommentDisplay = ({ id } : Props) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/comment_display/5'); // Replace with your backend API endpoint
+                const response = await axios.get('http://localhost:5000/comment_display/' + id + '/5'); // Replace with your backend API endpoint
                 console.log(response.data);
                 setCommentData(response.data);
             } catch (error) {
@@ -48,6 +48,8 @@ const CommentDisplay = ({ id } : Props) => {
         const response = await axios(config)
         if (response.data.status === 200) {
             alert("Success!");
+            const response = await axios.get('http://localhost:5000/comment_display/' + id + '5');
+            setCommentData(response.data);
         } else {
             alert(response.data.message);
         }
