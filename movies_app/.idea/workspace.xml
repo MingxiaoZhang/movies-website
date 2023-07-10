@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1e92a6ce-e9c3-45b3-8ff5-245af3eb3ddc" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/utils/authenticationUtil.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-    </list>
+    <list default="true" id="1e92a6ce-e9c3-45b3-8ff5-245af3eb3ddc" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -100,7 +95,7 @@
       <workItem from="1687668466390" duration="74000" />
       <workItem from="1688421163433" duration="3081000" />
       <workItem from="1688433993737" duration="3112000" />
-      <workItem from="1688940032546" duration="3284000" />
+      <workItem from="1688940032546" duration="3309000" />
     </task>
     <servers />
   </component>
