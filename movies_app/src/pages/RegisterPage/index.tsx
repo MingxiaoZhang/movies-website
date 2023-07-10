@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
+import {PageRoutes} from "../../routes/pageRoutes";
 
 const RegisterPage: React.FC = () => {
+    const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -17,7 +20,7 @@ const RegisterPage: React.FC = () => {
         e.preventDefault();
         const config = {
             method: 'post',
-            url: 'http://localhost:5000/create_user',
+            url: 'http://localhost:5000/register',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -27,8 +30,8 @@ const RegisterPage: React.FC = () => {
             }
         };
         const response = await axios(config)
-        if (response.data.status === 200) {
-            alert("Success!");
+        if (response.status === 200) {
+            navigate(PageRoutes.LOGIN);
         } else {
             alert(response.data.message);
         }

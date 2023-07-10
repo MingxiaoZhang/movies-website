@@ -3,5 +3,5 @@ export type MovieInfoType = {
     year: number;
     runtime: number;
     director: string;
-    genres: string[];
+    genres: { id: string, genreName: string }[];
 };
