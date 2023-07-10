@@ -36,7 +36,7 @@ const Navbar: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="flex items-center w-full px-3">
+                    <div className="flex items-center w-full px-3 relative">
                         <SearchBar onSearch={handleSearch} />
                     </div>
                     <div className="flex items-center mr-auto">
