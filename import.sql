@@ -14,3 +14,12 @@ FIELDS TERMINATED BY ';'
 ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
+
+#remember to change the path to your local file path, thanks
+LOAD DATA LOCAL INFILE '/Users/emilychen/Desktop/new-data/person_info.csv' 
+INTO TABLE movies.person_info
+character set latin7
+FIELDS TERMINATED BY ';' 
+ENCLOSED BY '"'
+LINES TERMINATED BY '\r\n'
+IGNORE 1 ROWS;
