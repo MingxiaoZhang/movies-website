@@ -49,3 +49,38 @@ def user_login(name, password):
             return 'Error: Incorrect password'
     except Exception as e:
         return f'Failed to connect to the database: {str(e)}'
+
+
+@users.route('/comment', methods=['POST'])
+def comment():
+    data = request.get_json()
+    name = data['name']
+    movie_id = data['movie_id']
+    comment = data['comment']
+    print(comment)
+    try: 
+        connection = get_db_connection()
+        cur = connection.cursor()
+        cur.execute('SELECT MAX(comment_id) FROM comment')
+        data = cur.fetchone()
+        comment_id = data[0] + 1
+        cur.execute('INSERT INTO comment VALUES (%s, %s, %s, %s)', (comment_id, name, movie_id, comment))
+        comment_id += 1
+        connection.commit()
+        return jsonify({'status': 200})
+    except Exception as e :
+        return jsonify({'status': 500, 'message': e})
+    
+@users.route('/comment_display/<int:num>')
+def comment_display(num):
+    try: 
+        connection = get_db_connection()
+        cur = connection.cursor()
+        cur.execute('SELECT * FROM comment ORDER BY comment_id DESC LIMIT %s', [num])
+        data = cur.fetchall()
+        json_data = []
+        for row in data:
+            json_data.append({'username': row[1], 'comment': row[3]})
+        return jsonify(json_data)
+    except Exception as e:
+        return f'Failed to connect to the database: {str(e)}'
