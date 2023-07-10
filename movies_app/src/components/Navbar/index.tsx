@@ -5,6 +5,7 @@ import SearchBar from "../SearchBar";
 
 const Navbar: React.FC = () => {
     const navigate = useNavigate();
+    const user = localStorage.getItem('user');
 
     const handleSearch = (searchTerm: string) => {
         navigate(`/search?query=${searchTerm}`);
@@ -39,12 +40,25 @@ const Navbar: React.FC = () => {
                         <SearchBar onSearch={handleSearch} />
                     </div>
                     <div className="flex items-center mr-auto">
-                        <button
-                            onClick={() => {navigate(PageRoutes.LOGIN)}}
-                            className="bg-white text-gray-800 px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-100"
-                        >
-                            Login
-                        </button>
+                        {user ?
+                            <div className="hidden md:block flex items-baseline space-x-4">
+                                <a
+                                    className="leading-10 text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium text-center"
+                                    onClick={() => {navigate(`${PageRoutes.USER_PROFILE}/${user}`)}}
+                                >
+                                    {user}
+                                </a>
+                            </div>
+                            :
+                            <button
+                                onClick={() => {
+                                    navigate(PageRoutes.LOGIN)
+                                }}
+                                className="bg-white text-gray-800 px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-100"
+                            >
+                                Login
+                            </button>
+                        }
                     </div>
                 </div>
             </div>

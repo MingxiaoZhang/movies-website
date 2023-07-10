@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import {useNavigate} from "react-router-dom";
+import {PageRoutes} from "../../../routes/pageRoutes";
+import {isTokenValid} from "../../../utils/authenticationUtil";
 
 // maybe add user name?
 type Props = {
@@ -12,11 +15,12 @@ type Comment = {
 };
 
 const CommentDisplay = ({ id } : Props) => {
+    const navigate = useNavigate();
     const [comment, setComment] = useState('');
+    const [refresh, setRefresh] = useState(false);
     const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setComment(e.target.value);
     };
-    const username = 'NewUser1'
     const [commentData, setCommentData] = useState<Comment[]>([]);
     useEffect(() => {
         const fetchData = async () => {
@@ -30,9 +34,14 @@ const CommentDisplay = ({ id } : Props) => {
         };
 
         fetchData();
-    }, []);
+    }, [refresh]);
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        const username = localStorage.getItem('user');
+        if (!username || !isTokenValid()) {
+            localStorage.clear();
+            navigate(PageRoutes.LOGIN);
+        }
         const config = {
             method: 'post',
             url: 'http://localhost:5000/comment',
@@ -46,8 +55,8 @@ const CommentDisplay = ({ id } : Props) => {
             }
         };
         const response = await axios(config)
-        if (response.data.status === 200) {
-            alert("Success!");
+        if (response.status === 200) {
+            setRefresh(!refresh);
         } else {
             alert(response.data.message);
         }
@@ -76,7 +85,7 @@ const CommentDisplay = ({ id } : Props) => {
                         <div className="">
                             <h2 className="text-lg font-bold mb-2 mt-4"> Comments </h2>
                             <ul className="flex flex-col divide-y">
-                                {commentData.map((item, index) => (
+                                {commentData && commentData.length > 0 && commentData.map((item, index) => (
                                     <li
                                         key={index}
                                         className="py-2"

@@ -11,5 +11,7 @@ export enum PageRoutes {
     GENRE_INFO_ROUTE = '/genre/:id',
     SEARCH_RESULT = '/search',
     LOGIN = '/login',
-    REGISTER = '/register'
+    REGISTER = '/register',
+    USER_PROFILE = '/user',
+    USER_PROFILE_ROUTE = '/user/:name',
 }
