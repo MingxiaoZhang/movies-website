@@ -1,4 +1,4 @@
-# run import.sql first
+# run import.sql and create.sql first
 SELECT movie_id, title, start_year, run_time_minutes, is_adult 
 FROM movies.basic_info WHERE title="Nosferatu";
 SELECT person_id,primary_name, birth_year, death_year, primary_profession, known_for_titles 
