@@ -55,3 +55,25 @@ CREATE TABLE movies.comment (
     FOREIGN KEY (user_name) REFERENCES movies.user(user_name),
     FOREIGN KEY (movie_id) REFERENCES movies.basic_info(movie_id)
 );
+
+CREATE TABLE movies.every_rate (
+	movie_id INT NOT NULL,
+    user_name VARCHAR(100),
+    rate INT NOT NULL,
+    FOREIGN KEY (movie_id) REFERENCES movies.basic_info(movie_id),
+    FOREIGN KEY (user_name) REFERENCES movies.user(user_name)
+);
+
+CREATE TRIGGER movies.get_average
+AFTER INSERT ON movies.every_rate
+FOR EACH ROW
+	UPDATE movies.movie_rating
+	SET movies.movie_rating.average_rating = (movies.movie_rating.average_rating + NEW.rate) / (movies.movie_rating.num_votes + 1)
+		WHERE movies.movie_rating.movie_id = NEW.movie_id;
+        
+CREATE TRIGGER movies.get_average2
+AFTER INSERT ON movies.every_rate
+FOR EACH ROW
+	UPDATE movies.movie_rating
+	SET movies.movie_rating.num_votes = movies.movie_rating.num_votes + 1
+    WHERE movies.movie_rating.movie_id = NEW.movie_id;
