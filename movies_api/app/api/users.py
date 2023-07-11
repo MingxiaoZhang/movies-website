@@ -74,6 +74,7 @@ def comment():
         return jsonify({'message': str(e)}), 500
 
 
+
 @users.route('/comment_display/<movie_id>/<int:num>')
 def comment_display(movie_id, num):
     try:
@@ -84,6 +85,38 @@ def comment_display(movie_id, num):
         json_data = []
         for row in data:
             json_data.append({'username': row[1], 'comment': row[3]})
+        return jsonify(json_data)
+    except Exception as e:
+        return f'Failed to connect to the database: {str(e)}'
+
+
+@users.route('/rating', methods=['POST'])
+def rating():
+    data = request.get_json()
+    user_name = data['user_name']
+    movie_id = data['movie_id']
+    rating = data['rating']
+    try:
+        connection = get_db_connection()
+        cur = connection.cursor()
+        cur.execute('INSERT INTO every_rate (user_name, movie_id, rate) VALUES ( %s, %s, %s)', 
+                    (user_name, movie_id, rating))
+        connection.commit()
+        return jsonify({'message': 'Success'}), 200
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
+    
+
+@users.route('/rating_display/<int:movie_id>', methods=['GET'])
+def rating_display(movie_id):
+    try:
+        connection = get_db_connection()
+        cur = connection.cursor()
+        cur.execute('SELECT * FROM movie_rating WHERE movie_id = %s', [movie_id])
+        data = cur.fetchall()
+        json_data = []
+        for row in data:
+            json_data.append({'movie_id': row[0], 'average_rating': row[1], 'num_votes' : row[2]})
         return jsonify(json_data)
     except Exception as e:
         return f'Failed to connect to the database: {str(e)}'
