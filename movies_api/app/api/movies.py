@@ -35,10 +35,10 @@ def get_movie_by_id(movie_id):
         cur.execute('SELECT * FROM person_info WHERE person_id IN (SELECT person_id FROM movie_director WHERE '
                     'movie_id=%s)', [movie_id])
         director_data = cur.fetchone()
-        cur.execute('SELECT genre_name FROM genre WHERE genre_id IN (SELECT genre_id FROM movie_genre WHERE '
+        cur.execute('SELECT * FROM genre WHERE genre_id IN (SELECT genre_id FROM movie_genre WHERE '
                     'movie_id=%s)', [movie_id])
         genre_data = cur.fetchall()
-        genre_data = [item[0] for item in genre_data]
+        genre_data = [{'id': item[0], 'genreName': item[1]} for item in genre_data]
         json_data = {
             'title': data[1],
             'year': data[2],
@@ -57,7 +57,8 @@ def search_movie(search_info):
     try:
         connect = get_db_connection()
         cur = connect.cursor()
-        cur.execute('SELECT movie_id, title, start_year, run_time_minutes, is_adult FROM basic_info WHERE title LIKE \'%' + search_info + '%\' LIMIT 20')
+        cur.execute(
+            'SELECT movie_id, title, start_year, run_time_minutes, is_adult FROM basic_info WHERE title LIKE \'%' + search_info + '%\' LIMIT 20')
         data = cur.fetchall()
         json_data = []
         for row in data:
@@ -107,6 +108,27 @@ def get_sorted_movies():
         for row in data:
             json_data.append({'id': row[0], 'title': row[1], 'year': row[2], 'runtime': row[3]})
         return jsonify(json_data)
+    except Exception as e:
+        return f'Failed to connect to the database: {str(e)}'
+
+
+@movies.route('/genre/<int:genre_id>', methods=['GET'])
+def get_genre_movies(genre_id):
+    try:
+        # Attempt to connect to the database
+        connect = get_db_connection()
+        cur = connect.cursor()
+        cur.execute('SELECT genre_name FROM genre WHERE genre_id=%s', [genre_id])
+        genre = cur.fetchone()
+        cur.execute('SELECT movie_id FROM movie_genre WHERE genre_id=%s', [genre_id])
+        data = cur.fetchall()
+        movie_data = []
+        for row in data:
+            cur.execute('SELECT * FROM basic_info WHERE movie_id=%s', [row[0]])
+            data = cur.fetchone()
+            movie_data.append({'id': data[0], 'title': data[1], 'year': data[2], 'runtime': data[3]})
+
+        return jsonify({'genre': genre[0], 'movies': movie_data})
     except Exception as e:
         return f'Failed to connect to the database: {str(e)}'
 

@@ -7,7 +7,11 @@ export enum PageRoutes {
     DIRECTOR_INFO_ROUTE = '/director-info/:id',
     ACTOR_INFO = '/actor-info',
     ACTOR_INFO_ROUTE = '/actor-info/:id',
+    GENRE_INFO = '/genre',
+    GENRE_INFO_ROUTE = '/genre/:id',
     SEARCH_RESULT = '/search',
     LOGIN = '/login',
-    REGISTER = '/register'
+    REGISTER = '/register',
+    USER_PROFILE = '/user',
+    USER_PROFILE_ROUTE = '/user/:name',
 }

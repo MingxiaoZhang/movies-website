@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import {MovieInfoType} from "./types";
+import {useNavigate} from "react-router-dom";
+import {PageRoutes} from "../../../routes/pageRoutes";
 
 type Props = {
     id: string
 };
 
 const BasicInfo = ({ id }: Props) => {
-    const [movieInfo, setMovieInfo] = useState<MovieInfoType>()
+    const [movieInfo, setMovieInfo] = useState<MovieInfoType>();
+    const navigate = useNavigate();
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -32,7 +36,7 @@ const BasicInfo = ({ id }: Props) => {
                         <p className="text-gray-700 mb-4">Director: {movieInfo?.director}</p>
                         <p className="text-gray-700 mb-4">Genres: {
                             movieInfo?.genres && movieInfo.genres.map((genre, index) => (
-                                <span key={index}>{genre} </span>
+                                <span key={index} onClick={() => navigate(`${PageRoutes.GENRE_INFO}/${genre.id}`)}>{genre.genreName} </span>
                             ))
                         }</p>
                     </div>

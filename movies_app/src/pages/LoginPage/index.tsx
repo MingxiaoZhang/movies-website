@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import {useNavigate} from "react-router-dom";
+import axios from "axios";
+import {PageRoutes} from "../../routes/pageRoutes";
 
 const LoginPage: React.FC = () => {
     const navigate = useNavigate();
@@ -14,13 +16,28 @@ const LoginPage: React.FC = () => {
         setPassword(e.target.value);
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Add your login logic here
-        console.log(`Username: ${username} | Password: ${password}`);
-        // Reset form fields
-        setUsername('');
-        setPassword('');
+        console.log(username, password);
+        const config = {
+            method: 'post',
+            url: 'http://localhost:5000/login',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: {
+                "username": username,
+                "password": password
+            }
+        };
+        const response = await axios(config)
+        if (response.status === 200) {
+            localStorage.setItem('user', response.data.user);
+            localStorage.setItem('token', response.data.token);
+            navigate(PageRoutes.HOME);
+        } else {
+            alert(response.data.message);
+        }
     };
 
     return (
