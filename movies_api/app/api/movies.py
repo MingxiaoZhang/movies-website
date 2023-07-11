@@ -139,9 +139,9 @@ def get_similar_movies(movie_id):
         connect = get_db_connection()
         cur = connect.cursor()
         cur.execute('SELECT b.movie_id, b.title, g.genre_name, r.average_rating '
-                        'FROM basic_info b, movie_genre mg, movie_rating r, genre g '
-                        'WHERE b.movie_id=mg.movie_id AND b.movie_id=r.movie_id AND mg.genre_id=g.genre_id '
-                        f'AND mg.genre_id IN (SELECT genre_id FROM movie_genre WHERE movie_id={movie_id}) '
+                        'FROM basic_info b NATURAL JOIN movie_genre mg '
+                        'NATURAL JOIN movie_rating r NATURAL JOIN genre g '
+                        f'WHERE mg.genre_id IN (SELECT genre_id FROM movie_genre WHERE movie_id={movie_id}) '
                         'ORDER BY r.average_rating DESC LIMIT 5')
         data = cur.fetchall()
         json_data = []
