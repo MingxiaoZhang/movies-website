@@ -98,24 +98,23 @@ def rating():
     try:
         connection = get_db_connection()
         cur = connection.cursor()
-        cur.execute('INSERT INTO every_rate (user_name, movie_id, rate) VALUES ( %s, %s, %s)',
-                    (user_name, movie_id, rating))
+        cur.execute('INSERT INTO user_rating (user_name, movie_id, rating) VALUES ( %s, %s, %s) ON DUPLICATE KEY UPDATE'
+                    ' rating = %s;',
+                    (user_name, movie_id, rating, rating))
         connection.commit()
         return jsonify({'message': 'Success'}), 200
     except Exception as e:
         return jsonify({'message': str(e)}), 500
 
 
-@users.route('/rating_display/<int:movie_id>', methods=['GET'])
-def rating_display(movie_id):
+@users.route('/user-rating/<user>/<int:movie_id>', methods=['GET'])
+def get_user_rating(user, movie_id):
     try:
         connection = get_db_connection()
         cur = connection.cursor()
-        cur.execute('SELECT * FROM movie_rating WHERE movie_id = %s', [movie_id])
-        data = cur.fetchall()
-        json_data = []
-        for row in data:
-            json_data.append({'movie_id': row[0], 'average_rating': row[1], 'num_votes': row[2]})
-        return jsonify(json_data)
+        cur.execute('SELECT rating FROM user_rating WHERE movie_id = %s AND user_name = %s', [movie_id, user])
+        data = cur.fetchone()
+        print(data[0])
+        return jsonify({'userRating': data[0]}), 200
     except Exception as e:
-        return f'Failed to connect to the database: {str(e)}'
+        return jsonify({'message': str(e)}), 500
