@@ -9,4 +9,5 @@ SELECT movie_id, title, start_year, run_time_minutes, is_adult
 FROM movies.basic_info NATURAL JOIN movies.movie_rating 
 ORDER BY average_rating LIMIT 20;
 SELECT * FROM movies.user;
+insert into movies.comment values(1, NewUser1, 12349, "Good");
 SELECT * FROM comment WHERE movie_id = NewUser1 ORDER BY comment_id DESC LIMIT 5
