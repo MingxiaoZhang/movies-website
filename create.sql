@@ -69,7 +69,7 @@ CREATE TRIGGER movies.set_average
 AFTER INSERT ON movies.user_rating
 FOR EACH ROW
 	UPDATE movies.movie_rating
-	SET movies.movie_rating.average_rating = (movies.movie_rating.average_rating + NEW.rate) / (movies.movie_rating.num_votes + 1)
+	SET movies.movie_rating.average_rating = (movies.movie_rating.average_rating*movies.movie_rating.num_votes + NEW.rate) / (movies.movie_rating.num_votes + 1)
 		WHERE movies.movie_rating.movie_id = NEW.movie_id;
         
 CREATE TRIGGER movies.set_average

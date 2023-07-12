@@ -56,4 +56,10 @@ MYSQL_DB=movies
 8. Start the frontend development server:
 ```npm start```
 
+## Generate production dataset
+1. Change the path in import.sql to the file locations on your local machine
+
+2. On MySQLWorkbench, go to database > Connect to Database > Advance, add 'OPT_LOCAL_INFILE=1' to Others; then click OK
+
+3. Execute import.sql on the new connection
 
