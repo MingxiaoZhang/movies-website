@@ -42,10 +42,11 @@ MYSQL_HOST=localhost
 MYSQL_USER=<username>
 MYSQL_PASSWORD=<password>
 MYSQL_DB=movies
+JWT_SECRET_KEY=<secret_key>
 ```
 
 5. Run the backend server on localhost: 
-```python app.py```
+```flask run```
 
 6. Navigate to the frontend project directory:
 ```cd movies_app```
