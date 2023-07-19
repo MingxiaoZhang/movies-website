@@ -72,7 +72,7 @@ FOR EACH ROW
 	SET movies.movie_rating.average_rating = (movies.movie_rating.average_rating*movies.movie_rating.num_votes + NEW.rating) / (movies.movie_rating.num_votes + 1)
 		WHERE movies.movie_rating.movie_id = NEW.movie_id;
         
-CREATE TRIGGER movies.set_average
+CREATE TRIGGER movies.set_average_2
 AFTER UPDATE ON movies.user_rating
 FOR EACH ROW
 	UPDATE movies.movie_rating
