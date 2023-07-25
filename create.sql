@@ -97,6 +97,7 @@ FOR EACH ROW
 	SET movies.movie_rating.num_votes = movies.movie_rating.num_votes + 1
     WHERE movies.movie_rating.movie_id = NEW.movie_id;
 
+delimiter //
 CREATE TRIGGER movies.set_comment_likes 
 AFTER INSERT ON movies.comment_like
 FOR EACH ROW
@@ -109,6 +110,36 @@ BEGIN
     ELSE
     UPDATE movies.comment
     SET movies.comment.num_dislike = movies.comment.num_dislike + 1
-    WHERE NEW.comment_id = comment_id
-    END IF
-END;
+    WHERE NEW.comment_id = comment_id;
+    END IF;
+END; //
+delimiter ;
+
+delimiter //
+CREATE TRIGGER movies.update_comment_likes 
+AFTER UPDATE ON movies.comment_like
+FOR EACH ROW
+BEGIN
+	IF NEW.like_comment <> OLD.like_comment THEN
+		IF NEW.like_comment THEN
+		BEGIN
+			UPDATE movies.comment
+			SET movies.comment.num_like = movies.comment.num_like + 1
+			WHERE NEW.comment_id = comment_id;
+			UPDATE movies.comment
+			SET movies.comment.num_dislike = movies.comment.num_dislike - 1
+			WHERE NEW.comment_id = comment_id;
+		END;
+		ELSE
+		BEGIN
+			UPDATE movies.comment
+			SET movies.comment.num_dislike = movies.comment.num_dislike + 1
+			WHERE NEW.comment_id = comment_id;
+			UPDATE movies.comment
+			SET movies.comment.num_like = movies.comment.num_like - 1
+			WHERE NEW.comment_id = comment_id;
+		END;
+		END IF;
+    END IF;
+END; //
+delimiter ;
