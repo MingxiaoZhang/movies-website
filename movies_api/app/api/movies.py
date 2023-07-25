@@ -189,13 +189,13 @@ def get_movies_by_director(person_id):
     except Exception as e:
         return f'Failed to connect to the database: {str(e)}'
     
-@movies.route('/get_movie_by_name/<search_info>', methods=['GET'])
-def get_movie_by_name(search_info):
+@movies.route('/get_movie_by_person_id/<search_info>', methods=['GET'])
+def get_movie_by_person_id(search_info):
     try:
         connect = get_db_connection()
         cur = connect.cursor()
         cur.execute('SELECT movie_id FROM movie_director WHERE person_id=%s UNION SELECT movie_id FROM movie_actor WHERE person_id=%s'
-                     , [search_info , search_info])
+                     , (search_info , search_info))
         data = cur.fetchone()
         movie_data = []
         for row in data:
