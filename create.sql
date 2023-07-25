@@ -52,6 +52,10 @@ CREATE TABLE movies.comment (
     user_name VARCHAR(100) NOT NULL,
     movie_id INT NOT NULL,
     comment VARCHAR(1000) NOT NULL,
+    num_like INT, 
+    check(num_like >= 0),
+    num_dislike INT, 
+    check(num_dislike >= 0),
     FOREIGN KEY (user_name) REFERENCES movies.user(user_name),
     FOREIGN KEY (movie_id) REFERENCES movies.basic_info(movie_id)
 );
