@@ -54,7 +54,6 @@ const BasicInfo = ({ id }: Props) => {
     }
 
     const closeModal = () => {
-        setUserRating(undefined);
         setShowModal(false);
     };
 
@@ -107,7 +106,7 @@ const BasicInfo = ({ id }: Props) => {
                         <p className="text-gray-700 mb-4">Director: {movieInfo?.director}</p>
                         <p className="text-gray-700 mb-4">Genres: {
                             movieInfo?.genres && movieInfo.genres.map((genre, index) => (
-                                <span key={index} onClick={() => navigate(`${PageRoutes.GENRE_INFO}/${genre.id}`)}>{genre.genreName} </span>
+                                <span className="hover:text-blue-800" key={index} onClick={() => navigate(`${PageRoutes.GENRE_INFO}/${genre.id}`)}>{genre.genreName} </span>
                             ))
                         }</p>
                     </div>
