@@ -3,6 +3,7 @@ import axios from 'axios';
 import {useNavigate} from "react-router-dom";
 import {PageRoutes} from "../../../routes/pageRoutes";
 import {isTokenValid} from "../../../utils/authenticationUtil";
+import { AiFillLike, AiFillDislike, AiOutlineDislike, AiOutlineLike } from "react-icons/ai"
 
 // maybe add user name?
 type Props = {
@@ -63,6 +64,7 @@ const CommentDisplay = ({ id } : Props) => {
         }
         setComment('');
     };
+    
     return (
         <div className="bg-gray-100">
             <div className="max-w-xl mx-auto p-4">
@@ -91,12 +93,17 @@ const CommentDisplay = ({ id } : Props) => {
                                         key={index}
                                         className="py-2"
                                     >
+                                        <div>
                                         <h2 className="mb-2">
                                             {item.username}
                                         </h2>
                                         <p className="text-sm text-gray-700 mb-2">
                                             {item.comment}
                                         </p>
+                                        </div>
+                                        <div>
+                                            
+                                        </div>
                                     </li>
                                 ))}
                             </ul>

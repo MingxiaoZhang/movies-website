@@ -79,7 +79,7 @@ def comment_display(movie_id, num):
     try:
         connection = get_db_connection()
         cur = connection.cursor()
-        cur.execute('SELECT * FROM comment WHERE movie_id = %s ORDER BY comment_id DESC LIMIT %s', [movie_id, num])
+        cur.execute('SELECT user_name, comment, num_like, num_dislike FROM comment, comment_like WHERE movie_id = %sORDER BY comment_id DESC LIMIT %s', [movie_id, num])
         data = cur.fetchall()
         json_data = []
         for row in data:

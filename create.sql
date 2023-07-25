@@ -56,6 +56,13 @@ CREATE TABLE movies.comment (
     FOREIGN KEY (movie_id) REFERENCES movies.basic_info(movie_id)
 );
 
+CREATE TABLE movies.comment_like (
+	comment_id INT NOT NULL REFERENCES movies.comment,
+    user_name VARCHAR(100) NOT NULL REFERENCES movies.user(user_name),
+	like_comment BOOL,  
+    PRIMARY KEY(comment_id, user_name)
+);
+
 CREATE TABLE movies.user_rating (
 	movie_id INT NOT NULL,
     user_name VARCHAR(100),
