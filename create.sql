@@ -92,3 +92,19 @@ FOR EACH ROW
 	UPDATE movies.movie_rating
 	SET movies.movie_rating.num_votes = movies.movie_rating.num_votes + 1
     WHERE movies.movie_rating.movie_id = NEW.movie_id;
+
+CREATE TRIGGER movies.set_comment_likes 
+AFTER INSERT ON movies.comment_like
+FOR EACH ROW
+BEGIN
+    IF NEW.like_comment
+    THEN
+	UPDATE movies.comment
+    SET movies.comment.num_like = movies.comment.num_like + 1
+    WHERE NEW.comment_id = comment_id;
+    ELSE
+    UPDATE movies.comment
+    SET movies.comment.num_dislike = movies.comment.num_dislike + 1
+    WHERE NEW.comment_id = comment_id
+    END IF
+END;
