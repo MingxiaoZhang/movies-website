@@ -52,8 +52,19 @@ CREATE TABLE movies.comment (
     user_name VARCHAR(100) NOT NULL,
     movie_id INT NOT NULL,
     comment VARCHAR(1000) NOT NULL,
+    num_like INT, 
+    check(num_like >= 0),
+    num_dislike INT, 
+    check(num_dislike >= 0),
     FOREIGN KEY (user_name) REFERENCES movies.user(user_name),
     FOREIGN KEY (movie_id) REFERENCES movies.basic_info(movie_id)
+);
+
+CREATE TABLE movies.comment_like (
+	comment_id INT NOT NULL REFERENCES movies.comment,
+    user_name VARCHAR(100) NOT NULL REFERENCES movies.user(user_name),
+	like_comment BOOL,  
+    PRIMARY KEY(comment_id, user_name)
 );
 
 CREATE TABLE movies.user_rating (
@@ -85,3 +96,67 @@ FOR EACH ROW
 	UPDATE movies.movie_rating
 	SET movies.movie_rating.num_votes = movies.movie_rating.num_votes + 1
     WHERE movies.movie_rating.movie_id = NEW.movie_id;
+
+delimiter //
+CREATE TRIGGER movies.set_comment_likes 
+AFTER INSERT ON movies.comment_like
+FOR EACH ROW
+BEGIN
+    IF NEW.like_comment
+    THEN
+	UPDATE movies.comment
+    SET movies.comment.num_like = movies.comment.num_like + 1
+    WHERE NEW.comment_id = comment_id;
+    ELSE
+    UPDATE movies.comment
+    SET movies.comment.num_dislike = movies.comment.num_dislike + 1
+    WHERE NEW.comment_id = comment_id;
+    END IF;
+END; //
+delimiter ;
+
+delimiter //
+CREATE TRIGGER movies.update_comment_likes 
+AFTER UPDATE ON movies.comment_like
+FOR EACH ROW
+BEGIN
+	IF NEW.like_comment <> OLD.like_comment THEN
+		IF NEW.like_comment THEN
+		BEGIN
+			UPDATE movies.comment
+			SET movies.comment.num_like = movies.comment.num_like + 1
+			WHERE NEW.comment_id = comment_id;
+			UPDATE movies.comment
+			SET movies.comment.num_dislike = movies.comment.num_dislike - 1
+			WHERE NEW.comment_id = comment_id;
+		END;
+		ELSE
+		BEGIN
+			UPDATE movies.comment
+			SET movies.comment.num_dislike = movies.comment.num_dislike + 1
+			WHERE NEW.comment_id = comment_id;
+			UPDATE movies.comment
+			SET movies.comment.num_like = movies.comment.num_like - 1
+			WHERE NEW.comment_id = comment_id;
+		END;
+		END IF;
+    END IF;
+END; //
+delimiter ;
+
+delimiter //
+CREATE TRIGGER movies.remove_comment_likes 
+AFTER DELETE ON movies.comment_like
+FOR EACH ROW
+BEGIN
+	IF OLD.like_comment THEN
+	UPDATE movies.comment
+	SET movies.comment.num_like = movies.comment.num_like - 1
+	WHERE OLD.comment_id = comment_id;
+	ELSE
+		UPDATE movies.comment
+		SET movies.comment.num_dislike = movies.comment.num_dislike - 1
+		WHERE OLD.comment_id = comment_id;
+    END IF;
+END; //
+delimiter ;

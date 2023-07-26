@@ -188,3 +188,36 @@ def get_movies_by_director(person_id):
         return jsonify(json_data)
     except Exception as e:
         return f'Failed to connect to the database: {str(e)}'
+    
+@movies.route('/get_movie_by_person_id/<search_info>', methods=['GET'])
+def get_movie_by_person_id(search_info):
+    try:
+        connect = get_db_connection()
+        cur = connect.cursor()
+        cur.execute('SELECT movie_id FROM movie_director WHERE person_id=%s UNION SELECT movie_id FROM movie_actor WHERE person_id=%s'
+                     , (search_info , search_info))
+        data = cur.fetchall()
+        movie_data = []
+        for row in data:
+            movie_data.append({'movie_id': row[0]})
+
+        return jsonify(movie_data)
+    except Exception as e:
+        return f'Failed to connect to the database: {str(e)}'
+    
+@movies.route('/person_data', methods=['GET'])
+def get_person_data():
+    try:
+        connect = get_db_connection()
+        cur = connect.cursor()
+        cur.execute('SELECT * FROM person_info')
+        data = cur.fetchall()
+        json_data = []
+        for row in data:
+            json_data.append({'person_id': row[0], 'primary_name': row[1], 'birth_year': row[2],
+                              'death_year': row[3], 'primary_profession': row[4], 'known_for_titles': row[5]})
+
+        return jsonify(json_data)
+    
+    except Exception as e:
+        return f'Failed to connect to the database: {str(e)}'
