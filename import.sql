@@ -41,4 +41,3 @@ ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-SELECT * FROM movies.movie_actor
