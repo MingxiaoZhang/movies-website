@@ -34,7 +34,12 @@ def get_movie_by_id(movie_id):
         rating_data = cur.fetchone()
         cur.execute('SELECT * FROM person_info WHERE person_id IN (SELECT person_id FROM movie_director WHERE '
                     'movie_id=%s)', [movie_id])
-        director_data = cur.fetchone()
+        director_data = cur.fetchall()
+        director_data = [{'id': item[0], 'directorName': item[1]} for item in director_data]
+        cur.execute('SELECT * FROM person_info WHERE person_id IN (SELECT person_id FROM movie_actor WHERE '
+                    'movie_id=%s)', [movie_id])
+        actor_data = cur.fetchall()
+        actor_data = [{'id': item[0], 'actorName': item[1]} for item in actor_data]
         cur.execute('SELECT * FROM genre WHERE genre_id IN (SELECT genre_id FROM movie_genre WHERE '
                     'movie_id=%s)', [movie_id])
         genre_data = cur.fetchall()
@@ -44,7 +49,8 @@ def get_movie_by_id(movie_id):
             'year': data[2],
             'runtime': data[3],
             'averageRating': rating_data[0],
-            'director': director_data[1],
+            'directors': director_data,
+            'actors': actor_data,
             'genres': genre_data
         }
         return jsonify(json_data)
@@ -132,25 +138,23 @@ def get_genre_movies(genre_id):
     except Exception as e:
         return f'Failed to connect to the database: {str(e)}'
 
-@movies.route('/movie-similar/<int:movie_id>', methods=['GET'])
+
+@movies.route('/movies-similar/<int:movie_id>', methods=['GET'])
 def get_similar_movies(movie_id):
     try:
         # Attempt to connect to the database
         connect = get_db_connection()
         cur = connect.cursor()
-        cur.execute('SELECT b.movie_id, b.title, g.genre_name, r.average_rating '
-                        'FROM basic_info b NATURAL JOIN movie_genre mg '
-                        'NATURAL JOIN movie_rating r NATURAL JOIN genre g '
-                        f'WHERE mg.genre_id IN (SELECT genre_id FROM movie_genre WHERE movie_id={movie_id}) '
-                        'ORDER BY r.average_rating DESC LIMIT 5')
+        cur.execute('SELECT movie_id, title, average_rating FROM movies.basic_info NATURAL JOIN movies.movie_rating NATURAL JOIN movies.movie_director NATURAL JOIN (SELECT person_id FROM movies.movie_director NATURAL JOIN movies.basic_info WHERE movie_id=%s) AS temp ORDER BY average_rating DESC LIMIT 5', [movie_id])
         data = cur.fetchall()
         json_data = []
         for row in data:
-            json_data.append({'movie_id': row[0], 'title': row[1], 'genre_name': row[2], 'average_rating': row[3]})
+            json_data.append({'id': row[0], 'title': row[1], 'rating': row[2]})
         return jsonify(json_data)
     except Exception as e:
         return f'Failed to connect to the database: {str(e)}'
     
+
 @movies.route('/actor-movie/<int:person_id>', methods=['GET'])
 def get_movies_by_actor(person_id):
     try:
@@ -170,6 +174,7 @@ def get_movies_by_actor(person_id):
     except Exception as e:
         return f'Failed to connect to the database: {str(e)}'
     
+
 @movies.route('/director-movie/<int:person_id>', methods=['GET'])
 def get_movies_by_director(person_id):
     try:
@@ -188,14 +193,15 @@ def get_movies_by_director(person_id):
         return jsonify(json_data)
     except Exception as e:
         return f'Failed to connect to the database: {str(e)}'
-    
-@movies.route('/get_movie_by_person_id/<search_info>', methods=['GET'])
-def get_movie_by_person_id(search_info):
+
+
+@movies.route('/movies-by-person/<int:person_id>', methods=['GET'])
+def get_movie_by_person_id(person_id):
     try:
         connect = get_db_connection()
         cur = connect.cursor()
         cur.execute('SELECT movie_id FROM movie_director WHERE person_id=%s UNION SELECT movie_id FROM movie_actor WHERE person_id=%s'
-                     , (search_info , search_info))
+                     , (person_id , person_id))
         data = cur.fetchall()
         movie_data = []
         for row in data:
@@ -204,9 +210,10 @@ def get_movie_by_person_id(search_info):
         return jsonify(movie_data)
     except Exception as e:
         return f'Failed to connect to the database: {str(e)}'
-    
-@movies.route('/person_data', methods=['GET'])
-def get_person_data():
+
+
+@movies.route('/person-list', methods=['GET'])
+def get_all_person_data():
     try:
         connect = get_db_connection()
         cur = connect.cursor()
@@ -219,5 +226,42 @@ def get_person_data():
 
         return jsonify(json_data)
     
+    except Exception as e:
+        return f'Failed to connect to the database: {str(e)}'
+    
+@movies.route('/person-data/<int:id>', methods=['GET'])
+def get_person_data(id):
+    try:
+        connect = get_db_connection()
+        cur = connect.cursor()
+        cur.execute('SELECT * FROM person_info WHERE person_id=%s', [id])
+        data = cur.fetchone()
+        cur.execute('SELECT movie_id, title FROM basic_info WHERE movie_id IN (SELECT movie_id FROM movie_director WHERE person_id=%s UNION SELECT movie_id FROM movie_actor WHERE person_id=%s)'
+                     , (id , id))
+        works_data = cur.fetchall()
+        movie_data = []
+        for row in works_data:
+            movie_data.append({'id': row[0], 'title': row[1]})
+
+        return jsonify({'name': data[1], 'birthYear': data[2],
+                              'deathYear': data[3], 'profession': data[4], 'works': movie_data})
+    
+    except Exception as e:
+        return f'Failed to connect to the database: {str(e)}'
+    
+
+@movies.route('/genres', methods=['GET'])
+def get_all_genres():
+    try:
+        # Attempt to connect to the database
+        connect = get_db_connection()
+        cur = connect.cursor()
+        cur.execute('SELECT genre_id, genre_name, COUNT(*) FROM movies.genre NATURAL JOIN movies.movie_genre GROUP BY genre_id ORDER BY COUNT(*) DESC')
+        genres = cur.fetchall()
+        genre_data = []
+        for row in genres:
+            genre_data.append({'id': row[0], 'name': row[1], 'movieCount': row[2]})
+
+        return jsonify(genre_data)
     except Exception as e:
         return f'Failed to connect to the database: {str(e)}'

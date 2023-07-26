@@ -31,7 +31,7 @@ const BasicInfo = ({ id }: Props) => {
         };
 
         fetchData();
-    }, [id, localStorage]);
+    }, [id]);
 
     const submitRating = async () => {
         if (!localStorage.getItem('user')) {
@@ -54,7 +54,6 @@ const BasicInfo = ({ id }: Props) => {
     }
 
     const closeModal = () => {
-        setUserRating(undefined);
         setShowModal(false);
     };
 
@@ -104,10 +103,19 @@ const BasicInfo = ({ id }: Props) => {
                         )}
                         <p className="mt-8 text-gray-700 mb-4">Year: {movieInfo?.year}</p>
                         <p className="text-gray-700 mb-4">Runtime: {movieInfo?.runtime}</p>
-                        <p className="text-gray-700 mb-4">Director: {movieInfo?.director}</p>
+                        <p className="text-gray-700 mb-4">{`Director${(movieInfo?.directors && movieInfo?.directors.length > 1) ? 's' : ''}`}: {
+                            movieInfo?.directors && movieInfo.directors.map((director, index) => (
+                                <span className="hover:text-blue-800" key={index} onClick={() => navigate(`${PageRoutes.PERSON_INFO}/${director.id}`)}>{director.directorName} </span>
+                            ))
+                        }</p>
+                        <p className="text-gray-700 mb-4">Actors: {
+                            movieInfo?.actors && movieInfo.actors.map((actor, index) => (
+                                <span className="hover:text-blue-800" key={index} onClick={() => navigate(`${PageRoutes.PERSON_INFO}/${actor.id}`)}>{actor.actorName} </span>
+                            ))
+                        }</p>
                         <p className="text-gray-700 mb-4">Genres: {
                             movieInfo?.genres && movieInfo.genres.map((genre, index) => (
-                                <span key={index} onClick={() => navigate(`${PageRoutes.GENRE_INFO}/${genre.id}`)}>{genre.genreName} </span>
+                                <span className="hover:text-blue-800" key={index} onClick={() => navigate(`${PageRoutes.GENRE_INFO}/${genre.id}`)}>{genre.genreName} </span>
                             ))
                         }</p>
                     </div>
