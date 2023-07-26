@@ -11,6 +11,8 @@ import RegisterPage from "./pages/RegisterPage";
 import SearchResultPage from "./pages/SearchResultPage";
 import GenrePage from "./pages/GenrePage";
 import UserProfilePage from "./pages/UserProfilePage";
+import PersonInfoPage from './pages/PersonInfoPage';
+import GenreListPage from './pages/GenreListPage';
 
 function App() {
   return (
@@ -20,8 +22,10 @@ function App() {
               <Route path={'/'} element={<MainPage />}/>
               <Route path={PageRoutes.HOME} element={<MainPage />}/>
               <Route path={PageRoutes.MOVIE_INFO_ROUTE} element={<MovieInfoPage />}/>
+              <Route path={PageRoutes.PERSON_INFO_ROUTE} element={<PersonInfoPage />}/>
               <Route path={PageRoutes.MOVIE_LIST} element={<MoviesListPage />}/>
               <Route path={PageRoutes.SEARCH_RESULT} element={<SearchResultPage />}/>
+              <Route path={PageRoutes.GENRE_LIST} element={<GenreListPage />}/>
               <Route path={PageRoutes.GENRE_INFO_ROUTE} element={<GenrePage />}/>
               <Route path={PageRoutes.LOGIN} element={<LoginPage />}/>
               <Route path={PageRoutes.REGISTER} element={<RegisterPage />}/>

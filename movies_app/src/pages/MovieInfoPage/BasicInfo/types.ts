@@ -3,6 +3,7 @@ export type MovieInfoType = {
     averageRating: number;
     year: number;
     runtime: number;
-    director: string;
+    directors: { id: string, directorName: string }[];
+    actors: { id: string, actorName: string }[];
     genres: { id: string, genreName: string }[];
 };

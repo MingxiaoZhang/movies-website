@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from "axios";
 import {MovieBasicInfo} from "../../types";
+import { PageRoutes } from '../../routes/pageRoutes';
 
 const GenrePage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const [movies, setMovies] = useState<MovieBasicInfo[]>([]);
     const [genreName, setGenreName] = useState<string>();
+    const navigate = useNavigate();
 
     useEffect(() => {
         // Fetch movies based on the genre
@@ -31,7 +33,7 @@ const GenrePage: React.FC = () => {
             {movies.length > 0 ? (
                 <ul className="grid grid-cols-2 gap-4">
                     {movies.map((movie) => (
-                        <li key={movie.id} className="bg-white p-4 rounded-md shadow-md">
+                        <li key={movie.id} className="bg-white p-4 rounded-md shadow-md" onClick={() => navigate(`${PageRoutes.MOVIE_INFO}/${movie.id}`)}>
                             <h3 className="text-lg font-bold mb-2">{movie.title}</h3>
                             <p className="text-gray-500">Year: {movie.year}</p>
                             {/* Render other movie details as needed */}

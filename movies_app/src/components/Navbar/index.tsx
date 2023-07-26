@@ -33,6 +33,12 @@ const Navbar: React.FC = () => {
                                 >
                                     All Movies
                                 </a>
+                                <a
+                                    className="w-24 text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium text-center"
+                                    onClick={() => {navigate(PageRoutes.GENRE_LIST)}}
+                                >
+                                    All Genres
+                                </a>
                             </div>
                         </div>
                     </div>
