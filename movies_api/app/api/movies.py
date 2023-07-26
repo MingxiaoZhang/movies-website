@@ -196,7 +196,7 @@ def get_movie_by_person_id(search_info):
         cur = connect.cursor()
         cur.execute('SELECT movie_id FROM movie_director WHERE person_id=%s UNION SELECT movie_id FROM movie_actor WHERE person_id=%s'
                      , (search_info , search_info))
-        data = cur.fetchone()
+        data = cur.fetchall()
         movie_data = []
         for row in data:
             movie_data.append({'movie_id': row[0]})
@@ -206,12 +206,12 @@ def get_movie_by_person_id(search_info):
         return f'Failed to connect to the database: {str(e)}'
     
 @movies.route('/person_data', methods=['GET'])
-def get_person():
+def get_person_data():
     try:
         connect = get_db_connection()
         cur = connect.cursor()
         cur.execute('SELECT * FROM person_info')
-        data = cur.fetchone()
+        data = cur.fetchall()
         json_data = []
         for row in data:
             json_data.append({'person_id': row[0], 'primary_name': row[1], 'birth_year': row[2],
