@@ -3,15 +3,20 @@ import axios from 'axios';
 import {useNavigate} from "react-router-dom";
 import {PageRoutes} from "../../../routes/pageRoutes";
 import {isTokenValid} from "../../../utils/authenticationUtil";
+import { AiFillLike, AiFillDislike, AiOutlineDislike, AiOutlineLike } from "react-icons/ai"
 
-// maybe add user name?
 type Props = {
     id : string;
 };
 
 type Comment = {
+    comment_id : number;
     username : string;
     comment : string;
+    num_like : number;
+    num_dislike : number;
+    like : boolean;
+    neither: boolean;
 };
 
 const CommentDisplay = ({ id } : Props) => {
@@ -25,7 +30,8 @@ const CommentDisplay = ({ id } : Props) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/comment_display/' + id + '/5'); // Replace with your backend API endpoint
+                const username = localStorage.getItem('user');
+                const response = await axios.get('http://localhost:5000/comment_display/' + id + '/5/' + username); // Replace with your backend API endpoint
                 console.log(response.data);
                 setCommentData(response.data);
             } catch (error) {
@@ -49,7 +55,7 @@ const CommentDisplay = ({ id } : Props) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            data : {
+            data: {
                 "name": username,
                 "movie_id": id,
                 "comment": comment
@@ -63,6 +69,60 @@ const CommentDisplay = ({ id } : Props) => {
         }
         setComment('');
     };
+
+    const handleCommentLike = async (comment_id:number, like_comment:boolean) => {
+        const username = localStorage.getItem('user');
+        if (!username || !isTokenValid()) {
+            localStorage.clear();
+            navigate(PageRoutes.LOGIN);
+            return;
+        }
+        const config = {
+            method: 'post',
+            url: 'http://localhost:5000/like_comment', 
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: {
+                "name": username, 
+                "comment_id": comment_id, 
+                "like_comment": like_comment
+            }
+        };
+        const response = await axios(config);
+        if (response.status === 200) {
+            setRefresh(!refresh);
+        } else {
+            alert(response.data.message);
+        }
+    };
+
+    const handleRemoveCommentLike = async (comment_id:number) => {
+        const username = localStorage.getItem('user');
+        if (!username || !isTokenValid()) {
+            localStorage.clear();
+            navigate(PageRoutes.LOGIN);
+            return;
+        }
+        const config = {
+            method: 'post',
+            url: 'http://localhost:5000/remove_like_comment', 
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: {
+                "name": username, 
+                "comment_id": comment_id
+            }
+        };
+        const response = await axios(config);
+        if (response.status === 200) {
+            setRefresh(!refresh);
+        } else {
+            alert(response.data.message);
+        }
+    };
+    
     return (
         <div className="bg-gray-100">
             <div className="max-w-xl mx-auto p-4">
@@ -87,16 +147,24 @@ const CommentDisplay = ({ id } : Props) => {
                             <h2 className="text-lg font-bold mb-2 mt-4"> Comments </h2>
                             <ul className="flex flex-col divide-y">
                                 {commentData && commentData.length > 0 && commentData.map((item, index) => (
-                                    <li
-                                        key={index}
-                                        className="py-2"
-                                    >
-                                        <h2 className="mb-2">
-                                            {item.username}
-                                        </h2>
-                                        <p className="text-sm text-gray-700 mb-2">
-                                            {item.comment}
-                                        </p>
+                                    <li key={index} className="py-2 flex">
+                                        <div className="flex-1">
+                                            <h2 className="mb-2">{item.username}</h2>
+                                            <p className="text-sm text-gray-700 mb-2">{item.comment}</p>
+                                        </div>
+                                        <div className="flex items-end">
+                                            {item.like ? (
+                                                <AiFillLike onClick={() => {handleRemoveCommentLike(item.comment_id)}}/>) : (
+                                                <AiOutlineLike onClick={() => {handleCommentLike(item.comment_id, true)}}/>)
+                                            }
+                                            <p>{item.num_like}</p>
+                                            {!item.like && !item.neither ? (
+                                                <AiFillDislike onClick={() => {handleRemoveCommentLike(item.comment_id)}}/>) : (
+                                                <AiOutlineDislike onClick={() => {handleCommentLike(item.comment_id, false)}}/>
+                                                )
+                                            }
+                                            <p>{item.num_dislike}</p>
+                                        </div>
                                     </li>
                                 ))}
                             </ul>
