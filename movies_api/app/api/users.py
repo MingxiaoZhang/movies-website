@@ -56,7 +56,6 @@ def comment():
     name = data['name']
     movie_id = data['movie_id']
     comment = data['comment']
-    print(comment)
     try:
         connection = get_db_connection()
         cur = connection.cursor()
@@ -66,24 +65,67 @@ def comment():
             comment_id = 0
         else:
             comment_id = data[0] + 1
-        cur.execute('INSERT INTO comment VALUES (%s, %s, %s, %s)', (comment_id, name, movie_id, comment))
+        cur.execute('INSERT INTO comment VALUES (%s, %s, %s, %s, 0, 0)', (comment_id, name, movie_id, comment))
         comment_id += 1
         connection.commit()
         return jsonify({'message': 'Success'}), 200
     except Exception as e:
         return jsonify({'message': str(e)}), 500
 
+@users.route('/like_comment', methods=['POST'])
+def like_comment():
+    data = request.get_json()
+    name = data['name']
+    comment_id = data['comment_id']
+    like_comment = data['like_comment']
+    print(comment_id)
+    try: 
+        connection = get_db_connection()
+        cur = connection.cursor()
+        # check if data is already in db
+        cur.execute('INSERT INTO comment_like VALUES (%s, %s, %s) ON DUPLICATE KEY UPDATE like_comment = %s', [comment_id, name, like_comment, like_comment])
+        connection.commit()
+        return jsonify({'message': 'Success'}), 200
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
+    
+@users.route('/remove_like_comment', methods=['POST'])
+def remove_like_comment():
+    data = request.get_json()
+    name = data['name']
+    comment_id = data['comment_id']
+    print(comment_id)
+    try: 
+        connection = get_db_connection()
+        cur = connection.cursor()
+        # check if data is already in db
+        cur.execute('DELETE FROM comment_like WHERE comment_id = %s AND user_name = %s', [comment_id, name])
+        connection.commit()
+        return jsonify({'message': 'Success'}), 200
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
 
-@users.route('/comment_display/<movie_id>/<int:num>')
-def comment_display(movie_id, num):
+@users.route('/comment_display/<movie_id>/<int:num>/<name>')
+def comment_display(movie_id, num, name):
+    print(name)
     try:
         connection = get_db_connection()
         cur = connection.cursor()
-        cur.execute('SELECT user_name, comment, num_like, num_dislike FROM comment, comment_like WHERE movie_id = %sORDER BY comment_id DESC LIMIT %s', [movie_id, num])
-        data = cur.fetchall()
         json_data = []
-        for row in data:
-            json_data.append({'username': row[1], 'comment': row[3]})
+        if name is None: 
+            cur.execute('SELECT * FROM comment WHERE movie_id = %s ORDER BY comment_id DESC LIMIT %s', [movie_id, num])
+            data = cur.fetchall()
+            # also indicate whether the current user has liked the displaying comment
+            for row in data:
+                json_data.append({ 'comment_id': row[0], 'username': row[1], 'comment': row[3], 'num_like': row[4], 'num_dislike': row[5], 'like': 0, 'neither': 1})
+        else: 
+            cur.execute('SELECT * FROM comment c left outer join (select * from comment_like where user_name = %s) cl on c.comment_id = cl.comment_id WHERE movie_id = %s ORDER BY c.comment_id DESC LIMIT %s', [name, movie_id, num])
+            data = cur.fetchall()
+            for row in data:
+                if row[8] is None: 
+                    json_data.append({ 'comment_id': row[0], 'username': row[1], 'comment': row[3], 'num_like': row[4], 'num_dislike': row[5], 'like': 0, 'neither': 1})
+                else: 
+                    json_data.append({ 'comment_id': row[0], 'username': row[1], 'comment': row[3], 'num_like': row[4], 'num_dislike': row[5], 'like': row[8], 'neither': 0})
         return jsonify(json_data)
     except Exception as e:
         return f'Failed to connect to the database: {str(e)}'
