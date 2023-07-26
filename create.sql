@@ -143,3 +143,20 @@ BEGIN
     END IF;
 END; //
 delimiter ;
+
+delimiter //
+CREATE TRIGGER movies.remove_comment_likes 
+AFTER DELETE ON movies.comment_like
+FOR EACH ROW
+BEGIN
+	IF OLD.like_comment THEN
+	UPDATE movies.comment
+	SET movies.comment.num_like = movies.comment.num_like - 1
+	WHERE OLD.comment_id = comment_id;
+	ELSE
+		UPDATE movies.comment
+		SET movies.comment.num_dislike = movies.comment.num_dislike - 1
+		WHERE OLD.comment_id = comment_id;
+    END IF;
+END; //
+delimiter ;
