@@ -30,7 +30,7 @@ def get_movie_by_id(movie_id):
         cur = connect.cursor()
         cur.execute('SELECT * FROM basic_info WHERE movie_id=%s', [movie_id])
         data = cur.fetchone()
-        cur.execute('SELECT average_rating FROM movie_rating WHERE movie_id=%s', [movie_id])
+        cur.execute('SELECT average_rating, num_votes FROM movie_rating WHERE movie_id=%s', [movie_id])
         rating_data = cur.fetchone()
         cur.execute('SELECT * FROM person_info WHERE person_id IN (SELECT person_id FROM movie_director WHERE '
                     'movie_id=%s)', [movie_id])
@@ -49,6 +49,7 @@ def get_movie_by_id(movie_id):
             'year': data[2],
             'runtime': data[3],
             'averageRating': rating_data[0],
+            'numVotes': rating_data[1],
             'directors': director_data,
             'actors': actor_data,
             'genres': genre_data

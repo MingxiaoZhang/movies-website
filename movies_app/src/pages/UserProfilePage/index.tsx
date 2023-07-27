@@ -51,7 +51,7 @@ const UserProfilePage: React.FC = () => {
                         <ul className="divide-y divide-gray-400">
                             {likes && likes.map((like, index) => (
                             <li key={index} className="py-2">
-                                <strong>{like.user}</strong> liked the comment: "{like.comment}"
+                                <strong>{like.user}</strong> liked your comment: "{like.comment}"
                             </li>
                             ))}
                         </ul>
