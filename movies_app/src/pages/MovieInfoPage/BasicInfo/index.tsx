@@ -12,6 +12,7 @@ const BasicInfo = ({ id }: Props) => {
     const [movieInfo, setMovieInfo] = useState<MovieInfoType>();
     const [userRating, setUserRating] = useState<number>();
     const [showModal, setShowModal] = useState<boolean>(false);
+    const [refresh, setRefresh] = useState<boolean>(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -31,7 +32,7 @@ const BasicInfo = ({ id }: Props) => {
         };
 
         fetchData();
-    }, [id]);
+    }, [refresh, id]);
 
     const submitRating = async () => {
         if (!localStorage.getItem('user')) {
@@ -46,7 +47,8 @@ const BasicInfo = ({ id }: Props) => {
             }
         );
         if (response.status === 200) {
-            alert('Success');
+            setShowModal(false);
+            setRefresh(!refresh);
         } else {
             alert('Error, please try again');
             console.log(response.data.message);
@@ -66,6 +68,7 @@ const BasicInfo = ({ id }: Props) => {
                         <div className="mt-4" onClick={() => {setShowModal(true)}}>
                             <h2 className="text-lg font-bold mb-2">Average Rating:</h2>
                             <p className="text-3xl font-display text-purple-600">{movieInfo?.averageRating}</p>
+                            <p className="text-xs font-display text-gray-600">Number of votes: {movieInfo?.numVotes}</p>
                         </div>
                         {showModal && (
                             <div className="fixed inset-0 flex">
