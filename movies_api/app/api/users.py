@@ -156,7 +156,21 @@ def get_user_rating(user, movie_id):
         cur = connection.cursor()
         cur.execute('SELECT rating FROM user_rating WHERE movie_id = %s AND user_name = %s', [movie_id, user])
         data = cur.fetchone()
-        print(data[0])
         return jsonify({'userRating': data[0]}), 200
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
+
+@users.route('/like-list/<user>', methods=['GET'])
+def get_user_likes(user):
+    try:
+        connection = get_db_connection()
+        cur = connection.cursor()
+        cur.execute('SELECT comment_like.user_name, like_comment, comment FROM comment_like JOIN comment ON comment.comment_id = comment_like.comment_id WHERE comment.user_name = %s', [user])
+        data = cur.fetchall()
+        like_data = []
+        for row in data:
+            if (row[1]):
+                like_data.append({'user': row[0], 'comment': row[2]})
+        return jsonify(like_data), 200
     except Exception as e:
         return jsonify({'message': str(e)}), 500
